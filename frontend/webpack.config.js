@@ -46,6 +46,7 @@ export default {
       directory: path.join(__dirname, 'frontend', 'public'),
     },
     port: 9000,
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
