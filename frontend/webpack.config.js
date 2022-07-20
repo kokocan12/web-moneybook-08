@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 const __dirname = path.resolve();
 
 export default {
-  entry: './frontend/app.js',
+  entry: './frontend/index.js',
   mode: 'development',
   output: {
     filename: 'main.js',
@@ -42,6 +42,9 @@ export default {
   },
   devtool: 'inline-source-map',
   devServer: {
+    static: {
+      directory: path.join(__dirname, 'frontend', 'public'),
+    },
     port: 9000,
   },
   plugins: [
