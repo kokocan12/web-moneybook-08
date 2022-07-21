@@ -1,0 +1,98 @@
+@import '../style/color.scss';
+
+#root {
+  header {
+    width: 100%;
+    background-color: $color-primary;
+    height: 194px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+      text-decoration: none;
+    }
+
+    .header-title {
+      color: $color-off-white;
+      margin-right: 216px;
+    }
+
+    .month-wrap {
+      display: flex;
+      align-items: center;
+      .arrow-wrap {
+        width: 8px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background-color: transparent;
+
+        .arrow-img {
+          width: 8px;
+          height: 16px;
+        }
+      }
+
+      .text-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .month-text {
+          font-size: 48px;
+          color: $color-off-white;
+          margin: 0 48px;
+          margin-bottom: 12px;
+        }
+
+        .year-text {
+          font-size: 24px;
+          color: $color-off-white;
+        }
+      }
+    }
+
+    .icon-wrap {
+      margin-left: 216px;
+      display: flex;
+      align-items: center;
+      width: max-content;
+
+      .text-icon {
+        width: 18px;
+        height: 22px;
+      }
+
+      .calendar-icon {
+        width: 18px;
+        height: 20px;
+      }
+
+      .chart-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .text-icon,
+      .calendar-icon,
+      .chart-icon {
+        margin-right: 28px;
+        &:last-child {
+          margin-right: 0;
+        }
+        img {
+          filter: invert(52%) sepia(2%) saturate(0%) hue-rotate(109deg) brightness(87%) contrast(91%);
+          width: inherit;
+          height: inherit;
+        }
+        &.active {
+          img {
+            filter: invert(99%) sepia(8%) saturate(2%) hue-rotate(227deg) brightness(105%) contrast(98%);
+          }
+        }
+      }
+    }
+  }
+}

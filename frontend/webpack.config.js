@@ -43,7 +43,7 @@ export default {
   devtool: 'inline-source-map',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'frontend', 'public'),
+      directory: path.join(__dirname, 'frontend'),
     },
     port: 9000,
     historyApiFallback: true,
