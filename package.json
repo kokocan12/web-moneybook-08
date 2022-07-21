@@ -10,8 +10,7 @@
     "dev:frontend": "webpack serve --config ./frontend/webpack.config.js --mode development",
     "lint": "eslint frontend/**/*.js",
     "lint:fix": "eslint frontend/**/*.js --fix",
-    "build:frontend": "webpack --config ./frontend/webpack.config.js",
-    "dev": "npm run dev:frontend & npm run dev:server"
+    "build:frontend": "webpack --config ./frontend/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
