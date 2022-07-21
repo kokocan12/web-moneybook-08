@@ -1,4 +1,5 @@
 import { Component } from '../components/Component.js';
+import { ListItem } from '../components/ListItem/ListItem.js';
 
 export class MainPage extends Component {
   constructor({ store }) {
@@ -9,7 +10,9 @@ export class MainPage extends Component {
   render() {
     const elements = `
     <h1>hello world</h1>
-    ${this.state.list.map(item => listItem({ id: item.id, contents: item.contents })).join('')}
+    ${this.state.list
+      .map(({ category, amount, title, paidType }) => ListItem({ category, title, paidType, amount }))
+      .join('')}
     <button>click!</button>
     `;
     this.setTemplate(elements);
@@ -20,14 +23,4 @@ export class MainPage extends Component {
 
     return this.templateContent;
   }
-}
-
-function listItem({ id, contents }) {
-  const div = document.createElement('div');
-
-  div.innerHTML = `
-    <li id="${id}">${contents}</li>
-    `;
-
-  return div.innerHTML;
 }
