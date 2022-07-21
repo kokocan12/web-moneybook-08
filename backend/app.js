@@ -16,5 +16,5 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.get('/', (req, res) => res.sendFile(`${process.cwd()}/dist/index.html`));
+app.get('*', (req, res) => res.sendFile(`${process.cwd()}/dist/index.html`));
 app.listen(PORT, handleListening);
