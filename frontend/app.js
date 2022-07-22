@@ -1,4 +1,4 @@
-import { Header } from './components/Header.js';
+import { Header } from './components/Header/Header.js';
 import { CalendarPage } from './pages/CalendarPage.js';
 import { MainPage } from './pages/MainPage.js';
 import { StatisticsPage } from './pages/StatisticsPage.js';

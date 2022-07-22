@@ -1,11 +1,12 @@
-import { router } from '../app.js';
-import { ROUTES } from '../utils.js';
+import { router } from '../../app.js';
+import { ROUTES } from '../../utils.js';
 import './header.scss';
-import leftArrowIcon from '../assets/icons/left-arrow.svg';
-import rightArrowIcon from '../assets/icons/right-arrow.svg';
-import textIcon from '../assets/icons/text.svg';
-import calendarIcon from '../assets/icons/calendar.svg';
-import chartIcon from '../assets/icons/chart.svg';
+import leftArrowIcon from '../../assets/icons/left-arrow.svg';
+import rightArrowIcon from '../../assets/icons/right-arrow.svg';
+import textIcon from '../../assets/icons/text.svg';
+import calendarIcon from '../../assets/icons/calendar.svg';
+import chartIcon from '../../assets/icons/chart.svg';
+import { modal } from '../Modal/Modal.js';
 
 export const Header = () => {
   const header = document.createElement('header');
@@ -38,6 +39,14 @@ export const Header = () => {
   header.insertAdjacentHTML('afterbegin', headerChild);
   header.style.display = 'flex';
   header.querySelectorAll('a').forEach(aTag => aTag.addEventListener('click', handleClickPage));
+
+  header.querySelector('.month-text').addEventListener('click', () => {
+    modal.input(
+      '추가하실 결제수단을 적어주세요.',
+      () => modal.clear(),
+      () => modal.clear(),
+    );
+  });
   return header;
 };
 
