@@ -11,6 +11,14 @@
 
 body {
   * {
-    font-family: 'BMDOHYEON', 'Noto Sans KR', sans-serif;
+    // font-family: 'BMDOHYEON', 'Noto Sans KR', sans-serif;
+  }
+  .page-wrapper {
+    width: 904px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
   }
 }

@@ -6,11 +6,11 @@ export class Component {
     if (typeof template === 'string') {
       this.template.innerHTML = template;
     } else {
-      this.template.append(template);
+      this.template.content.append(template);
     }
   }
 
-  get templateContent() {
+  templateContent() {
     return this.template.content;
   }
 

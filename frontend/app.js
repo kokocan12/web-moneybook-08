@@ -3,7 +3,7 @@ import { CalendarPage } from './pages/CalendarPage.js';
 import { MainPage } from './pages/MainPage.js';
 import { StatisticsPage } from './pages/StatisticsPage.js';
 import { HistoryStore } from './store/historyStore.js';
-import { ROUTES } from './utils.js';
+import { ROUTES } from './utils/constant.js';
 
 export const router = () => {
   const historyStore = new HistoryStore();

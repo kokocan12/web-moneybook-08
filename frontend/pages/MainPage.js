@@ -8,19 +8,15 @@ export class MainPage extends Component {
     this.setState = store.setState;
   }
   render() {
-    const elements = `
-    <h1>hello world</h1>
-    ${this.state.list
-      .map(({ category, amount, title, paidType }) => ListItem({ category, title, paidType, amount }))
-      .join('')}
-    <button>click!</button>
-    `;
-    this.setTemplate(elements);
-    const handleClickButton = () => {
-      console.log('click!');
-    };
-    this.addEventListener('button', 'click', handleClickButton);
+    const elements = document.createElement('div');
+    elements.classList.add('page-wrapper');
 
-    return this.templateContent;
+    const listItems = this.state.list.map(({ category, amount, title, paidType }) => {
+      return ListItem({ category, title, paidType, amount });
+    });
+    elements.append(...listItems);
+    this.setTemplate(elements);
+
+    return this.templateContent();
   }
 }

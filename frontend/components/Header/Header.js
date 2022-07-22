@@ -1,5 +1,5 @@
 import { router } from '../../app.js';
-import { ROUTES } from '../../utils.js';
+import { ROUTES } from '../../utils/constant.js';
 import './header.scss';
 import leftArrowIcon from '../../assets/icons/left-arrow.svg';
 import rightArrowIcon from '../../assets/icons/right-arrow.svg';
@@ -52,7 +52,7 @@ export const Header = () => {
 
 const handleClickPage = e => {
   e.preventDefault();
-  const href = e.target.getAttribute('href');
+  const href = e.currentTarget.getAttribute('href');
   history.pushState(null, null, href);
   router();
 };
