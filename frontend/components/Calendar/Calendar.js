@@ -1,7 +1,7 @@
 import { Component } from '../Component.js';
 import './calendar.scss';
 
-export class Calenar extends Component {
+export class Calendar extends Component {
   constructor(store) {
     super();
     this.state = store;
@@ -50,8 +50,8 @@ export class Calenar extends Component {
     const SATURDAY = 6;
     const SUNDAY = 0;
 
-    const caledarContainer = document.createElement('div');
-    caledarContainer.setAttribute('id', 'calendar-container');
+    const calendarContainer = document.createElement('div');
+    calendarContainer.setAttribute('id', 'calendar-container');
 
     const getCalendarInnerHTML = date =>
       date
@@ -76,14 +76,14 @@ export class Calenar extends Component {
         calendarInnerHTML += getCalendarInnerHTML();
       }
     }
-    caledarContainer.insertAdjacentHTML('afterbegin', calendarInnerHTML);
+    calendarContainer.insertAdjacentHTML('afterbegin', calendarInnerHTML);
 
     if (this.SELECTED_DATE.getMonth() == this.CURRENT_DATE.getMonth())
-      caledarContainer.childNodes.forEach(child =>
+      calendarContainer.childNodes.forEach(child =>
         child.innerText == this.CURRENT_DATE.getDate() ? child.classList.add('today') : null,
       );
 
-    return caledarContainer;
+    return calendarContainer;
   }
 
   drawTotalMoney() {

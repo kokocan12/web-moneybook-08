@@ -1,4 +1,4 @@
-import { Calenar } from '../components/Calendar/Calendar.js';
+import { Calendar } from '../components/Calendar/Calendar.js';
 import { Component } from '../components/Component.js';
 
 export class CalendarPage extends Component {
@@ -11,7 +11,7 @@ export class CalendarPage extends Component {
     const calendarPage = document.createElement('div');
 
     calendarPage.classList.add('page-wrapper');
-    const calendar = new Calenar(this.state);
+    const calendar = new Calendar(this.state);
     calendarPage.append(calendar.render());
     this.setTemplate(calendarPage);
 
