@@ -1,15 +1,20 @@
+import { Calenar } from '../components/Calendar/Calendar.js';
 import { Component } from '../components/Component.js';
 
 export class CalendarPage extends Component {
-  constructor() {
+  constructor({ store }) {
     super();
+    this.state = store.state;
+    this.setState = store.setState;
   }
   render() {
-    const elements = `
-    <h1>Calendar</h1>
-    `;
-    this.setTemplate(elements);
+    const calendarPage = document.createElement('div');
 
-    return this.templateContent;
+    calendarPage.classList.add('page-wrapper');
+    const calendar = new Calenar(this.state);
+    calendarPage.append(calendar.render());
+    this.setTemplate(calendarPage);
+
+    return this.templateContent();
   }
 }

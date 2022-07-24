@@ -1,5 +1,5 @@
 import { CATEGORY_COLOR_TYPE, CATEGORY_TYPE_KOREAN } from '../../utils/constant.js';
-import './ListItem.scss';
+import './listItem.scss';
 
 export const ListItem = ({ category, title, paidType, amount }) => {
   const listItem = document.createElement('div');

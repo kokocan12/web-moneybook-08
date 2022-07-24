@@ -19,7 +19,7 @@ export class MainPage extends Component {
       return ListItem({ category, title, paidType, amount });
     });
 
-    elements.append(...listItems, inputBar);
+    elements.append(inputBar, ...listItems);
     this.setTemplate(elements);
 
     return this.templateContent();
