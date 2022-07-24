@@ -1,0 +1,197 @@
+@import '../../style/color.scss';
+
+.input-bar-form {
+  display: flex;
+  align-items: center;
+  width: 904px;
+  height: 76px;
+  background-color: $color-off-white;
+  position: absolute;
+  top: 0px;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  border: 1px solid $color-line;
+  padding: 0 32px;
+
+  .input-wrap {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-right: 24px;
+    padding-right: 24px;
+    height: 44px;
+
+    #input-bar-date {
+      &::-webkit-inner-spin-button,
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 44px;
+      display: block;
+      background-color: $color-line;
+      right: 0;
+    }
+
+    &:nth-child(1) {
+      width: 98px;
+    }
+    &:nth-child(2) {
+      width: 124px;
+    }
+    &:nth-child(3) {
+      width: 197px;
+    }
+    &:nth-child(4) {
+      width: 125px;
+    }
+    &:nth-child(5) {
+      width: 144px;
+
+      &::after {
+        display: none;
+      }
+    }
+
+    .item-label {
+      color: $color-primary;
+      margin-bottom: 4px;
+      width: 100%;
+    }
+
+    .select-indicator {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      &--text {
+        color: $color-label;
+      }
+    }
+
+    .select-box {
+      width: 140px;
+      background-color: $color-off-white;
+      border-radius: 10px;
+      border: 1px solid $color-line;
+      position: absolute;
+      left: -20px;
+      top: 70px;
+      height: max-content;
+      display: none;
+
+      .radio-wrap {
+        width: 100%;
+
+        .radio-item {
+          .label {
+            display: block;
+            padding: 16px 24px;
+            outline: none;
+            border: none;
+            width: 100%;
+            background-color: inherit;
+            box-sizing: border-box;
+          }
+          border-bottom: 1px solid $color-line;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &--container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+
+            &--text {
+              font-size: 16px;
+            }
+
+            &--button {
+              background-color: transparent;
+              border: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          }
+        }
+      }
+
+      .select {
+        display: none;
+      }
+    }
+
+    :checked + .select-box {
+      display: block;
+    }
+
+    .input {
+      border: none;
+      outline: none;
+      font-size: 16px;
+
+      &:focus {
+        border: none;
+      }
+    }
+
+    .price-input {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .minus-icon-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+      }
+
+      .plus-icon-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+
+        img:first-child {
+          position: absolute;
+          transform: rotate(90deg);
+        }
+      }
+
+      .input {
+        text-align: right;
+        font-size: 16px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .submit-button {
+    width: 40px;
+    height: 40px;
+    border: 2px solid $color-primary;
+    border-radius: 10px;
+    background-color: $color-off-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 24px;
+  }
+}

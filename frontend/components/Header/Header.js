@@ -50,9 +50,9 @@ export const Header = () => {
   return header;
 };
 
-const handleClickPage = e => {
-  e.preventDefault();
-  const href = e.currentTarget.getAttribute('href');
+const handleClickPage = evt => {
+  evt.preventDefault();
+  const href = evt.currentTarget.getAttribute('href');
   history.pushState(null, null, href);
   router();
 };

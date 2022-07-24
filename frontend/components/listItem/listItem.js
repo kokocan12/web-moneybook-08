@@ -22,6 +22,6 @@ export const ListItem = ({ category, title, paidType, amount }) => {
   return listItem;
 };
 
-const handleClickList = e => {
-  e.target;
+const handleClickList = evt => {
+  evt.target;
 };
