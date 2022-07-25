@@ -1,7 +1,9 @@
+import { getFormattedDate } from '../../utils/date.js';
+
 export const MoneybookHistoryService = {
   get: async (connection, date) => {
-    const BEGIN_DATE = date + '-01 00:00:00';
-    const END_DATE = date + '-30 23:59:59';
+    const BEGIN_DATE = getFormattedDate(date).beginDate;
+    const END_DATE = getFormattedDate(date).endDate;
 
     const sql = `
     SELECT 
