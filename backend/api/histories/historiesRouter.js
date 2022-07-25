@@ -5,5 +5,5 @@ export const moneybookHistoryRouter = express.Router();
 
 moneybookHistoryRouter.get('/:date', MoneybookHistoryController.get);
 moneybookHistoryRouter.post('/', MoneybookHistoryController.create);
-moneybookHistoryRouter.delete('/', MoneybookHistoryController.delete);
-moneybookHistoryRouter.put('/', MoneybookHistoryController.update);
+moneybookHistoryRouter.delete('/:id', MoneybookHistoryController.delete);
+moneybookHistoryRouter.put('/:id', MoneybookHistoryController.update);
