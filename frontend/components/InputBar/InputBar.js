@@ -21,18 +21,19 @@ export class InputBar extends Component {
                             <label class="item-label" for="input-bar-date">
                                 일자
                             </label>
-                            <input id="input-bar-date" class="input" type="date" placeholder="입력하세요" />
+                            <input id="input-bar-date" class="input" type="text" readonly placeholder="입력하세요" autocomplete="off" />
+                            <input id="date-picker" class="input" type="date"  />
                         </div>`;
 
     const categoryInput = ` <div class="input-wrap">
                                 <label class="item-label" for="category-checkbox">
                                     분류
                                 </label>
+                                <input class="hidden" type="checkbox" id="category-checkbox" />
                                 <label class="select-indicator" for="category-checkbox">
                                     <span class="select-indicator--text category-text">선택하세요</span>
                                     <img src="${downArrow}" />
                                 </label>
-                                <input class="hidden" type="checkbox" id="category-checkbox" />
                                 <label class="select-box">
                                     <ul class="radio-wrap">
                                         ${Object.entries(this.categories)
@@ -64,11 +65,11 @@ export class InputBar extends Component {
                                     <label class="item-label" for="payment-mothod-checkbox">
                                         결제수단
                                     </label>
+                                    <input class="hidden" type="checkbox" id="payment-mothod-checkbox" />
                                     <label class="select-indicator" for="payment-mothod-checkbox">
                                         <span class="select-indicator--text payment-method-text">선택하세요</span>
                                         <img src="${downArrow}" />
                                     </label>
-                                    <input class="hidden" type="checkbox" id="payment-mothod-checkbox" />
                                     <label class="select-box" for="payment-mothod-checkbox">
                                         <ul class="radio-wrap">
                                             ${Object.entries(this.paymentMethods)
@@ -108,10 +109,10 @@ export class InputBar extends Component {
                                 금액
                             </label>
                             <div class="price-input">
-                                <div class="minus-icon-wrap">
+                                <div class="minus-icon-wrap hidden">
                                     <img src="${minusIcon}" alt="minus-icon" />
                                 </div>
-                                <div class="plus-icon-wrap">
+                                <div class="plus-icon-wrap hidden">
                                     <img src="${minusIcon}" alt="minus-icon" />
                                     <img src="${minusIcon}" alt="minus-icon" />
                                 </div>
@@ -139,25 +140,47 @@ export class InputBar extends Component {
 
   setEvents(form) {
     this.form = form;
-    form.querySelector('#input-bar-date').addEventListener('input', this.onDateChange);
+    form.addEventListener('pointerdown', this.handleFormPointerDown);
+    form.querySelector('#input-bar-date').addEventListener('click', this.handleDateClick);
+    form.querySelector('#date-picker').addEventListener('change', this.handleDateChange);
+
     form.querySelectorAll('input[name=category]').forEach(item => {
-      item.addEventListener('change', this.onCategoryChange);
+      item.addEventListener('change', this.handleCategoryChange);
     });
 
     form.querySelectorAll('input[name=payment-method]').forEach(item => {
-      item.addEventListener('change', this.onPaymentMethodChange);
+      item.addEventListener('change', this.handlePaymentMethodChange);
     });
 
-    form.querySelector('#payment-method-add-button').addEventListener('click', this.onPaymentMethodAddClick);
+    form.querySelector('#payment-method-add-button').addEventListener('click', this.handlePaymentMethodAddClick);
 
-    form.querySelector('#input-bar-price').addEventListener('input', this.onPriceChange);
+    form.querySelector('#input-bar-price').addEventListener('input', this.handlePriceChange);
   }
 
-  onDateChange = evt => {
-    const input = evt.currentTarget;
+  handleFormPointerDown = evt => {
+    const form = this.form;
+    const selectBox = evt.target.closest('.select-box');
+    const isSelectBoxClicked = selectBox && selectBox.contains(evt.target);
+
+    if (!isSelectBoxClicked) {
+      const checkboxes = form.querySelectorAll('input[type=checkbox]');
+      checkboxes.forEach(checkbox => (checkbox.checked = false));
+    }
   };
 
-  onCategoryChange = evt => {
+  handleDateClick = () => {
+    const datePicker = this.form.querySelector('#date-picker');
+    datePicker.showPicker();
+  };
+
+  handleDateChange = evt => {
+    const date = evt.target.value;
+    const dateInput = this.form.querySelector('#input-bar-date');
+
+    dateInput.value = date;
+  };
+
+  handleCategoryChange = evt => {
     const value = evt.currentTarget.value;
     const text = this.form.querySelector('.category-text');
     const categoryCheckbox = this.form.querySelector('#category-checkbox');
@@ -178,7 +201,7 @@ export class InputBar extends Component {
     }
   };
 
-  onPaymentMethodChange = evt => {
+  handlePaymentMethodChange = evt => {
     const value = evt.currentTarget.value;
     const text = this.form.querySelector('.payment-method-text');
     const paymentMethodCheckbox = this.form.querySelector('#payment-mothod-checkbox');
@@ -187,7 +210,7 @@ export class InputBar extends Component {
     paymentMethodCheckbox.checked = false;
   };
 
-  onPaymentMethodAddClick = evt => {
+  handlePaymentMethodAddClick = evt => {
     const paymentMethodCheckbox = this.form.querySelector('#payment-mothod-checkbox');
     paymentMethodCheckbox.checked = false;
 
@@ -196,13 +219,13 @@ export class InputBar extends Component {
     modal.input('추가하실 결제수단을 적어주세요.', confirmCallback, cancelCallback);
   };
 
-  onPriceChange = evt => {
+  handlePriceChange = evt => {
     const input = evt.currentTarget;
 
     input.value = Number(input.value.replace(/[^0-9]/g, '').slice(0, 10)).toLocaleString();
   };
 
-  onFormSubmit = evt => {
+  handleFormSubmit = evt => {
     evt.preventDefault();
   };
 }
