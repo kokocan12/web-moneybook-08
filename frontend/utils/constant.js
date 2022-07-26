@@ -40,3 +40,22 @@ export const CATEGORY_COLOR_TYPE = {
   [CATEGORY_TYPE.ETC]: '#e2b765',
   [CATEGORY_TYPE.UNDEFINED]: '#817dce',
 };
+
+export const DAY_TYPE = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+};
+export const DAY_KOREAN = {
+  [DAY_TYPE.SUNDAY]: '일',
+  [DAY_TYPE.MONDAY]: '월',
+  [DAY_TYPE.TUESDAY]: '화',
+  [DAY_TYPE.WEDNESDAY]: '수',
+  [DAY_TYPE.THURSDAY]: '목',
+  [DAY_TYPE.FRIDAY]: '금',
+  [DAY_TYPE.SATURDAY]: '토',
+};

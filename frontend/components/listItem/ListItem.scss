@@ -2,6 +2,36 @@
 
 .listItem-wrapper {
   font-family: 'Noto Sans';
+  width: 100%;
+}
+.list-date-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  border-bottom: 1px solid $color-line;
+  padding: 32px 0 20px 0;
+  box-sizing: border-box;
+
+  & .date {
+    margin-right: 12px;
+  }
+  & .day {
+    color: $color-body;
+  }
+  & .income {
+    color: $color-body;
+    margin-right: 12px;
+  }
+  & .expenditure {
+    color: $color-body;
+  }
+}
+.list-history-wrapper {
+  width: 100%;
   text-align: end;
   cursor: pointer;
   font-weight: 400;
@@ -11,9 +41,8 @@
   align-items: center;
   justify-content: space-between;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 100%;
   border-bottom: 1px solid $color-line;
-  padding: 20px 0;
+  padding: 20px 12px 20px 12px;
   box-sizing: border-box;
 }
 .listItem-front {
