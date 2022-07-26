@@ -7,22 +7,44 @@ import deleteIcon from '../../assets/icons/delete-icon.svg';
 import minusIcon from '../../assets/icons/minus-icon.svg';
 
 export class InputBar extends Component {
-  constructor({ categories, paymentMethods }) {
+  /*
+  category:
+  {
+    "id": number,
+    "name_en": string,
+    "name_ko": string,
+    "type": "O"|"I"
+  }
+  categories:Array<category>
+  ----------------------------------
+  paymentType:
+  {
+    "id": number,
+    "name": string
+  }
+  paymentTypes:Array<paymentType>
+  */
+  constructor({ state, setState }) {
     super();
-
-    this.categories = categories;
-    this.paymentMethods = paymentMethods;
+    this.categories = state.inputBar.categories;
+    this.paymentTypes = state.inputBar.paymentTypes;
+    this.state = state.inputBar;
+    this.setState = newState => {
+      setState({ inputBar: { ...this.state, ...newState } });
+    };
   }
   render() {
     const form = document.createElement('form');
     form.classList.add('input-bar-form');
 
+    const { currentDate, category, categoryName, title, paymentType, paymentTypeName, amount } = this.state;
+
     const dateInput = ` <div class="input-wrap">
                             <label class="item-label" for="input-bar-date">
                                 일자
                             </label>
-                            <input id="input-bar-date" class="input" type="text" readonly placeholder="입력하세요" autocomplete="off" />
-                            <input id="date-picker" class="input" type="date"  />
+                            <input id="input-bar-date" class="input" type="text" readonly placeholder="입력하세요" autocomplete="off" value="${currentDate}" />
+                            <input id="date-picker" class="input" type="date" value="${currentDate}"  />
                         </div>`;
 
     const categoryInput = ` <div class="input-wrap">
@@ -31,23 +53,27 @@ export class InputBar extends Component {
                                 </label>
                                 <input class="hidden" type="checkbox" id="category-checkbox" />
                                 <label class="select-indicator" for="category-checkbox">
-                                    <span class="select-indicator--text category-text">선택하세요</span>
+                                    <span class="select-indicator--text category-text">${
+                                      categoryName ? categoryName : '선택하세요'
+                                    }</span>
                                     <img src="${downArrow}" />
                                 </label>
                                 <label class="select-box">
                                     <ul class="radio-wrap">
-                                        ${Object.entries(this.categories)
-                                          .map(([val, key]) => {
+                                        ${this.categories
+                                          .map(categoryItem => {
                                             return `<li class="radio-item">
-                                                        <label class="label" for="${val}">${key}</label>
+                                                        <label class="label" for="category-${categoryItem.id}">${categoryItem.name_ko}</label>
                                                     </li>`;
                                           })
                                           .join('')}
                                     </ul>
                                     <div class="select">
-                                        ${Object.entries(this.categories)
-                                          .map(([val, key]) => {
-                                            return `<input type="radio" name="category" value="${key}" id="${val}" />`;
+                                        ${this.categories
+                                          .map(categoryItem => {
+                                            return `<input type="radio" name="category" 
+                                            ${categoryItem.id === category ? 'checked' : ''}
+                                            value="${categoryItem.id}" id="category-${categoryItem.id}" />`;
                                           })
                                           .join('')}
                                     </div>
@@ -58,26 +84,28 @@ export class InputBar extends Component {
                                 <label class="item-label" for="input-bar-contents">
                                     내용
                                 </label>
-                                <input id="input-bar-contents" class="input" type="text" placeholder="입력하세요" autocomplete="off" />
+                                <input id="input-bar-contents" class="input" type="text" value="${title}" placeholder="입력하세요" autocomplete="off" />
                             </div>`;
 
-    const paymentMethodInput = `<div class="input-wrap">
+    const paymentTypeInput = `<div class="input-wrap">
                                     <label class="item-label" for="payment-mothod-checkbox">
                                         결제수단
                                     </label>
                                     <input class="hidden" type="checkbox" id="payment-mothod-checkbox" />
                                     <label class="select-indicator" for="payment-mothod-checkbox">
-                                        <span class="select-indicator--text payment-method-text">선택하세요</span>
+                                        <span class="select-indicator--text payment-method-text">${
+                                          paymentTypeName ? paymentTypeName : '선택하세요'
+                                        }</span>
                                         <img src="${downArrow}" />
                                     </label>
                                     <label class="select-box" for="payment-mothod-checkbox">
                                         <ul class="radio-wrap">
-                                            ${Object.entries(this.paymentMethods)
-                                              .map(([val, key]) => {
+                                            ${this.paymentTypes
+                                              .map(paymentTypeItem => {
                                                 return `<li class="radio-item">
-                                                            <label class="label" for="${val}">
+                                                            <label class="label" for="payment-type-${paymentTypeItem.id}">
                                                                 <div class="radio-item--container">
-                                                                    <span class="radio-item--container--text">${key}</span>
+                                                                    <span class="radio-item--container--text">${paymentTypeItem.name}</span>
                                                                     <button type="button" class="radio-item--container--button">
                                                                         <img alt="delete-icon" src="${deleteIcon}" />
                                                                     </button>
@@ -95,16 +123,19 @@ export class InputBar extends Component {
                                             </li>
                                         </ul>
                                         <div class="select">
-                                            ${Object.entries(this.paymentMethods)
-                                              .map(([val, key]) => {
-                                                return `<input type="radio" name="payment-method" value="${key}" id="${val}" />`;
+                                            ${this.paymentTypes
+                                              .map(paymentTypeItem => {
+                                                return `<input type="radio" name="payment-method" 
+                                                ${paymentTypeItem.id === paymentType ? 'checked' : ''}
+                                                 value="${paymentTypeItem.id}" 
+                                                 id="payment-type-${paymentTypeItem.id}" />`;
                                               })
                                               .join('')}
                                         </div>
                                     </label>
                                 </div>`;
 
-    const priceInput = `<div class="input-wrap">
+    const amountInput = `<div class="input-wrap">
                             <label class="item-label" for="input-bar-price">
                                 금액
                             </label>
@@ -116,7 +147,9 @@ export class InputBar extends Component {
                                     <img src="${minusIcon}" alt="minus-icon" />
                                     <img src="${minusIcon}" alt="minus-icon" />
                                 </div>
-                                <input id="input-bar-price" class="input" type="text" placeholder="입력하세요" autocomplete="off" />
+                                <input id="input-bar-price" class="input" type="text" placeholder="입력하세요" value="${
+                                  amount ? Math.abs(amount).toLocaleString() : ''
+                                }" autocomplete="off" />
                                 <span class="price-unit">원</span>
                             </div>
                         </div>`;
@@ -128,8 +161,8 @@ export class InputBar extends Component {
     form.insertAdjacentHTML('beforeend', dateInput);
     form.insertAdjacentHTML('beforeend', categoryInput);
     form.insertAdjacentHTML('beforeend', contentsInput);
-    form.insertAdjacentHTML('beforeend', paymentMethodInput);
-    form.insertAdjacentHTML('beforeend', priceInput);
+    form.insertAdjacentHTML('beforeend', paymentTypeInput);
+    form.insertAdjacentHTML('beforeend', amountInput);
     form.insertAdjacentHTML('beforeend', buttonWrap);
 
     this.setEvents(form);
@@ -148,13 +181,15 @@ export class InputBar extends Component {
       item.addEventListener('change', this.handleCategoryChange);
     });
 
+    form.querySelector('#input-bar-contents').addEventListener('input', this.handleTitleChange);
+
     form.querySelectorAll('input[name=payment-method]').forEach(item => {
-      item.addEventListener('change', this.handlePaymentMethodChange);
+      item.addEventListener('change', this.handlePaymentTypeChange);
     });
 
-    form.querySelector('#payment-method-add-button').addEventListener('click', this.handlePaymentMethodAddClick);
+    form.querySelector('#payment-method-add-button').addEventListener('click', this.handlePaymentTypeAddClick);
 
-    form.querySelector('#input-bar-price').addEventListener('input', this.handlePriceChange);
+    form.querySelector('#input-bar-price').addEventListener('input', this.handleAmountChange);
   }
 
   handleFormPointerDown = evt => {
@@ -178,6 +213,7 @@ export class InputBar extends Component {
     const dateInput = this.form.querySelector('#input-bar-date');
 
     dateInput.value = date;
+    this.setState({ currentDate: date });
   };
 
   handleCategoryChange = evt => {
@@ -187,11 +223,13 @@ export class InputBar extends Component {
     const plusIcon = this.form.querySelector('.plus-icon-wrap');
     const minusIcon = this.form.querySelector('.minus-icon-wrap');
 
-    text.innerText = value;
     categoryCheckbox.checked = false;
+    const selectCategory = this.categories.find(item => item.id === +value);
+    text.innerText = selectCategory.name_ko;
 
-    const isIncomeCategory = ['월급', '용돈', '기타수입'].includes(value);
+    this.setState({ category: +value, categoryName: selectCategory.name_ko });
 
+    const isIncomeCategory = selectCategory.type === 'I';
     if (isIncomeCategory) {
       plusIcon.classList.remove('hidden');
       minusIcon.classList.add('hidden');
@@ -201,16 +239,25 @@ export class InputBar extends Component {
     }
   };
 
-  handlePaymentMethodChange = evt => {
+  handleTitleChange = evt => {
+    const value = evt.target.value;
+
+    this.setState({ title: value });
+  };
+
+  handlePaymentTypeChange = evt => {
     const value = evt.currentTarget.value;
     const text = this.form.querySelector('.payment-method-text');
     const paymentMethodCheckbox = this.form.querySelector('#payment-mothod-checkbox');
 
-    text.innerText = value;
+    const selectPaymentType = this.paymentTypes.find(item => item.id === +value);
+    text.innerText = selectPaymentType.name;
+
+    this.setState({ paymentType: +value, paymentTypeName: selectPaymentType.name });
     paymentMethodCheckbox.checked = false;
   };
 
-  handlePaymentMethodAddClick = evt => {
+  handlePaymentTypeAddClick = evt => {
     const paymentMethodCheckbox = this.form.querySelector('#payment-mothod-checkbox');
     paymentMethodCheckbox.checked = false;
 
@@ -219,10 +266,12 @@ export class InputBar extends Component {
     modal.input('추가하실 결제수단을 적어주세요.', confirmCallback, cancelCallback);
   };
 
-  handlePriceChange = evt => {
+  handleAmountChange = evt => {
     const input = evt.currentTarget;
 
     input.value = Number(input.value.replace(/[^0-9]/g, '').slice(0, 10)).toLocaleString();
+
+    this.setState({ amount: input.value.replace(/,/g, '') });
   };
 
   handleFormSubmit = evt => {

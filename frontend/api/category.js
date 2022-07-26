@@ -1,5 +1,9 @@
+import { BASE_URL } from './index.js';
+
 const category = {
-  get: async () => {},
+  get: async () => {
+    return fetch(`${BASE_URL}/categories`, { method: 'GET' });
+  },
 };
 
 export default category;

@@ -1,5 +1,9 @@
+import { BASE_URL } from './index.js';
+
 const paymentType = {
-  get: async () => {},
+  get: async () => {
+    return fetch(`${BASE_URL}/paymentTypes`, { method: 'GET' });
+  },
   post: async () => {},
   delete: async () => {},
 };

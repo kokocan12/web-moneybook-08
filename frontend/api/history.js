@@ -1,4 +1,4 @@
-import { BASE_URL } from '.';
+import { BASE_URL } from './index.js';
 
 const history = {
   get: async date => {

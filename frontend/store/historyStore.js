@@ -1,15 +1,23 @@
 import { Store } from './store.js';
+import api from '../api/index.js';
+import { router } from '../app.js';
 
 export class HistoryStore extends Store {
-  constructor({ categories, paymentMethods }) {
+  constructor() {
     super();
-
+    this.setMetaDate();
     this.state = {
       date: '2022-07',
       inputBar: {
-        categories,
-        paymentMethods,
-        currentDate: '',
+        categories: [],
+        paymentTypes: [],
+        currentDate: '2022-07-15',
+        category: 1,
+        categoryName: '쇼핑/뷰티',
+        title: '신발',
+        paymentType: 2,
+        paymentTypeName: '현대카드',
+        amount: -20000,
       },
       totalIncome: 4560000,
       totalExpenditure: 2734000,
@@ -92,5 +100,33 @@ export class HistoryStore extends Store {
       //   { category: 'undefined', title: '영화보기', paidType: '현대카드', amount: -10000 },
       // ],
     };
+  }
+
+  async setMetaDate() {
+    const [categoriesRes, paymentTypesRes] = await Promise.all([api.category.get(), api.paymentType.get()]);
+    const [categories, paymentTypes] = await Promise.all([categoriesRes.json(), paymentTypesRes.json()]);
+
+    /*
+    category:
+    {
+      "id": number,
+      "name_en": string,
+      "name_ko": string,
+      "type": "O"|"I"
+    }
+    categories:Array<category>
+    ----------------------------------
+    paymentType:
+    {
+      "id": number,
+      "name": string
+    }
+    paymentTypes:Array<paymentType>
+    */
+
+    this.setState({
+      inputBar: { ...this.state.inputBar, categories: categories.payload, paymentTypes: paymentTypes.payload },
+    });
+    router();
   }
 }
