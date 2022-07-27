@@ -1,22 +1,22 @@
 import { Store } from './store.js';
 import api from '../api/index.js';
 import { router } from '../app.js';
+import { getCurrentMonth } from '../utils/date.js';
 
 export class HistoryStore extends Store {
   constructor() {
     super();
-    this.setMetaDate();
-    this.getHistory();
+
     this.state = {
       checkboxContents: {
-        incomeChecked: false,
+        incomeChecked: true,
         expenditureChecked: true,
         totalIncome: 0,
         totalExpenditure: 0,
       },
       categories: [],
       paymentTypes: [],
-      date: '2022-07',
+      date: getCurrentMonth(),
       inputBar: {
         id: null,
         currentDate: '',
@@ -31,6 +31,9 @@ export class HistoryStore extends Store {
       totalExpenditure: 0,
       histories: [],
     };
+
+    this.setMetaDate();
+    this.getHistory();
   }
   async setMetaDate() {
     const [categoriesRes, paymentTypesRes] = await Promise.all([api.category.get(), api.paymentType.get()]);
@@ -61,8 +64,8 @@ export class HistoryStore extends Store {
     router();
   }
 
-  async getHistory() {
-    const res = await api.history.get('202207');
+  getHistory = async () => {
+    const res = await api.history.get(this.state.date.replace('-', ''));
     const data = await res.json();
     const formatted = this.setHistories(data.payload);
 
@@ -70,7 +73,7 @@ export class HistoryStore extends Store {
     const { totalMonthExpenditure } = this.setMonthTotal(data.payload);
     this.setState({ ...this.state, totalMonthIncome, totalMonthExpenditure, histories: formatted });
     router();
-  }
+  };
   setMonthTotal = historyData => {
     const totalMonthIncome = historyData
       .filter(history => history.amount > 0)

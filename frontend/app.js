@@ -4,16 +4,9 @@ import { MainPage } from './pages/MainPage.js';
 import { StatisticsPage } from './pages/StatisticsPage.js';
 import { HistoryStore } from './store/historyStore.js';
 import { StatisticsStore } from './store/statisticsStore.js';
-import { CATEGORY_TYPE_KOREAN, ROUTES } from './utils/constant.js';
+import { ROUTES } from './utils/constant.js';
 
-/**
- *  dummy data, db 연동 후 삭제
- */
-const PAYMENT_TYPE = {
-  CASH: '현금',
-  CARD: '현대카드',
-};
-const historyStore = new HistoryStore({ categories: CATEGORY_TYPE_KOREAN, paymentMethods: PAYMENT_TYPE });
+const historyStore = new HistoryStore();
 const statisticsStore = new StatisticsStore();
 
 const PAGE_TYPE = [
@@ -32,7 +25,7 @@ export const router = () => {
   const match = potentialMatches.find(el => el.isMatch);
   const view = new match.route.view({ store: match.route.store });
   root.innerHTML = '';
-  root.append(Header());
+  root.append(Header({ store: historyStore }));
   root.append(view.render());
 };
 
