@@ -15,7 +15,9 @@ export class MainPage extends Component {
     const checkBoxContents = CheckBoxContents(listCount, this.state.totalIncome, this.state.totalExpenditure);
     mainPage.classList.add('page-wrapper');
 
-    const listItems = this.state.histories.map(history => ListItem(history));
+    const listItems = this.state.histories.map(history =>
+      ListItem(history, this.state.categories, this.state.paymentTypes),
+    );
 
     mainPage.append(inputBar, checkBoxContents, ...listItems);
     this.setTemplate(mainPage);

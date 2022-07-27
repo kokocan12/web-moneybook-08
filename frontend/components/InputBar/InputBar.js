@@ -26,8 +26,8 @@ export class InputBar extends Component {
   */
   constructor({ state, setState }) {
     super();
-    this.categories = state.inputBar.categories;
-    this.paymentTypes = state.inputBar.paymentTypes;
+    this.categories = state.categories;
+    this.paymentTypes = state.paymentTypes;
     this.state = state.inputBar;
     this.setState = newState => {
       setState({ inputBar: { ...this.state, ...newState } });

@@ -9,5 +9,4 @@ const api = {
   category,
   paymentType,
 };
-
 export default api;

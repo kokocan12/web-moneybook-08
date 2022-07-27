@@ -36,8 +36,9 @@ export const router = () => {
   root.append(view.render());
 };
 
-export const App = () => {
+export const App = async () => {
   window.addEventListener('popstate', router);
   router();
+
   return;
 };

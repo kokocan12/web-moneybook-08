@@ -63,8 +63,7 @@ export const MoneybookHistoryController = {
 
     try {
       const histories = await MoneybookHistoryService.get(connection, date);
-
-      res.send({ histories });
+      res.status(200).send({ payload: histories });
     } catch (err) {
       res.send({ message: err.toString() });
       connection.rollback();

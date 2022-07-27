@@ -104,3 +104,17 @@
     gap: 20px;
   }
 }
+
+.day-history {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  .income {
+    color: $color-primary;
+  }
+  .expenditure {
+    color: $color-error;
+  }
+  .sum {
+  }
+}

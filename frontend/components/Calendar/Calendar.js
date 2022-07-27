@@ -52,23 +52,34 @@ export class Calendar extends Component {
 
     const calendarContainer = document.createElement('div');
     calendarContainer.setAttribute('id', 'calendar-container');
+    const getDateHistory = date => this.state.histories.find(item => new Date(item.date).getDate() == date);
 
-    const getCalendarInnerHTML = date =>
+    const getHistoryInnerHTML = history =>
+      history
+        ? `<div class = 'day-history'><span class='income'>${
+            history.totalIncome > 0 ? history.totalIncome : ''
+          }</span><span class ='expenditure'>${history.totalExpenditure}</span><span class ='sum'>${
+            history.totalIncome + history.totalExpenditure
+          }</span></div>`
+        : '';
+    const getCalendarInnerHTML = (date, history) =>
       date
-        ? `<div class ='calendar-day'><span class = 'day-marker'>${date}</span></div>`
+        ? `<div class ='calendar-day'>${history}<span class = 'day-marker'>${date}</span></div>`
         : `<div class ='calendar-day'></div>`;
 
     let calendarInnerHTML = '';
     if (this.getMonthData().startDay === SUNDAY) {
       for (let date = 1; date <= this.getMonthData().lastDate; date++) {
-        calendarInnerHTML += getCalendarInnerHTML(date);
+        const historyHTML = getHistoryInnerHTML(getDateHistory(date));
+        calendarInnerHTML += getCalendarInnerHTML(date, historyHTML);
       }
     } else {
       for (let prev = 0; prev < this.getMonthData().startDay; prev++) {
         calendarInnerHTML += getCalendarInnerHTML();
       }
       for (let date = 1; date <= this.getMonthData().lastDate; date++) {
-        calendarInnerHTML += getCalendarInnerHTML(date);
+        const historyHTML = getHistoryInnerHTML(getDateHistory(date));
+        calendarInnerHTML += getCalendarInnerHTML(date, historyHTML);
       }
     }
     if (this.getMonthData().lastDay !== SATURDAY) {
@@ -87,16 +98,16 @@ export class Calendar extends Component {
   }
 
   drawTotalMoney() {
-    const TOTAL = 5480000;
-    const TOTAL_INCOME = 4000000;
-    const TOTAL_EXPENDITURE = 4030200;
+    const TOTAL_INCOME = this.state.totalMonthIncome;
+    const TOTAL_EXPENDITURE = this.state.totalMonthExpenditure;
+    const TOTAL = TOTAL_INCOME + TOTAL_EXPENDITURE;
     const totalMoneyContainer = document.createElement('div');
     totalMoneyContainer.setAttribute('id', 'total-money-container');
 
     const totalInnerHTML = `
       <div>
         <span>총 수입 : ${TOTAL_INCOME.toLocaleString('ko-KR')} 원</span>
-        <span>총 지출 : ${TOTAL_EXPENDITURE.toLocaleString('ko-KR')} 원</span>
+        <span>총 지출 : ${Math.abs(TOTAL_EXPENDITURE).toLocaleString('ko-KR')} 원</span>
       </div>
       <span>총계 : ${TOTAL.toLocaleString('ko-KR')} 원</span>
     `;
