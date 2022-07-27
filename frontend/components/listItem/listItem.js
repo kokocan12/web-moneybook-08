@@ -43,7 +43,7 @@ export const ListItem = (history, categories, paymentTypes, store) => {
     ${history.list
       .map(({ id, title, payment_type, amount, category }) => {
         const currentCategory = categories.find(item => item.id == category);
-        const currnetPaymentType = paymentTypes.find(item => item.id == payment_type);
+        const currentPaymentType = paymentTypes.find(item => item.id == payment_type);
 
         if (!incomeChecked && amount > 0) return '';
 

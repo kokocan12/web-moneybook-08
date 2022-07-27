@@ -1,0 +1,38 @@
+@import '../../style/color.scss';
+
+#statisticContents-component-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 162px;
+  width: 904px;
+}
+#statisticContents-wrapper {
+  padding: 35px 42px 32px 42px;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 565px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: white;
+
+  border: 1px solid $color-grey-3;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1), 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  .totalExpenditure {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 22px;
+    margin-bottom: 35px;
+  }
+  .list-history-wrapper {
+    display: flex;
+    padding: 16px 12px 20px 12px;
+    justify-content: space-between;
+  }
+}
