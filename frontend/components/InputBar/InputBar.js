@@ -41,7 +41,7 @@ export class InputBar extends Component {
     const form = document.createElement('form');
     form.classList.add('input-bar-form');
 
-    const { currentDate, category, categoryName, title, paymentType, paymentTypeName, amount } = this.state;
+    const { id, currentDate, category, categoryName, title, paymentType, paymentTypeName, amount } = this.state;
 
     const dateInput = ` <div class="input-wrap">
                             <label class="item-label" for="input-bar-date">
@@ -51,12 +51,12 @@ export class InputBar extends Component {
                             <input id="date-picker" class="input" type="date" value="${currentDate}"  />
                         </div>`;
 
-    const categoryInput = ` <div class="input-wrap">
-                                <label class="item-label" for="category-checkbox">
+    const categoryInput = ` <div class="input-wrap ${id ? 'disabled' : ''}">
+                                <label class="item-label" for="category-checkbox${id ? 'disabled' : ''}">
                                     분류
                                 </label>
                                 <input class="hidden" type="checkbox" id="category-checkbox" />
-                                <label class="select-indicator" for="category-checkbox">
+                                <label class="select-indicator" for="category-checkbox${id ? 'disabled' : ''}">
                                     <span class="select-indicator--text category-text">${
                                       categoryName ? categoryName : '선택하세요'
                                     }</span>
@@ -346,31 +346,65 @@ export class InputBar extends Component {
 
   handleFormSubmit = async evt => {
     evt.preventDefault();
-    const { currentDate: date, category, title, paymentType, amount } = this.state;
-    const res = await api.history.post({ date, category, title, paymentType, amount });
-    if (!res.ok) {
-      const resJson = await res.json();
+    const { id, currentDate: date, category, title, paymentType, amount } = this.state;
+
+    if (!id) {
+      const res = await api.history.post({ date, category, title, paymentType, amount });
+      if (!res.ok) {
+        const resJson = await res.json();
+        const handleAlertConfirm = () => {
+          modal.clear();
+        };
+
+        modal.alert(resJson.message, handleAlertConfirm);
+        return;
+      }
+
       const handleAlertConfirm = () => {
         modal.clear();
+        this.setState({
+          id: null,
+          currentDate: '',
+          category: null,
+          categoryName: '',
+          title: '',
+          paymentType: null,
+          paymentTypeName: '',
+          amount: null,
+        });
+        this.store.getHistory();
       };
+      modal.alert('내역을 추가했습니다.', handleAlertConfirm);
+      return;
+    } else {
+      const res = await api.history.update({ id, date, category, title, paymentType, amount });
+      if (!res.ok) {
+        const resJson = await res.json();
+        const handleAlertConfirm = () => {
+          modal.clear();
+        };
 
-      modal.alert(resJson.message, handleAlertConfirm);
+        modal.alert(resJson.message, handleAlertConfirm);
+        return;
+      }
+
+      const handleAlertConfirm = () => {
+        modal.clear();
+        this.setState({
+          id: null,
+          currentDate: '',
+          category: null,
+          categoryName: '',
+          title: '',
+          paymentType: null,
+          paymentTypeName: '',
+          amount: null,
+        });
+        this.store.getHistory();
+      };
+      modal.alert('내역을 수정했습니다.', handleAlertConfirm);
+
       return;
     }
-
-    const handleAlertConfirm = () => {
-      modal.clear();
-      this.setState({
-        currentDate: '',
-        category: null,
-        categoryName: '',
-        title: '',
-        paymentType: null,
-        paymentTypeName: '',
-        amount: null,
-      });
-      this.store.getHistory();
-    };
-    modal.alert('내역을 추가했습니다.', handleAlertConfirm);
   };
 }

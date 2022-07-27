@@ -5,6 +5,23 @@
   align-items: center;
   justify-content: space-between;
   color: $color-primary;
+
+  .checkbox {
+    filter: grayscale(100%);
+
+    &.active {
+      filter: none;
+    }
+  }
+
+  .checkbox-text {
+    color: $color-line;
+
+    &.active {
+      color: $color-primary;
+    }
+  }
+
   .totalListCount {
     font-family: 'Noto Sans KR';
     font-style: normal;

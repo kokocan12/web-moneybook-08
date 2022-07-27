@@ -8,10 +8,17 @@ export class HistoryStore extends Store {
     this.setMetaDate();
     this.getHistory();
     this.state = {
+      checkboxContents: {
+        incomeChecked: false,
+        expenditureChecked: true,
+        totalIncome: 0,
+        totalExpenditure: 0,
+      },
       categories: [],
       paymentTypes: [],
       date: '2022-07',
       inputBar: {
+        id: null,
         currentDate: '',
         category: null,
         categoryName: '',

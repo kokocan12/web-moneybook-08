@@ -65,11 +65,14 @@ export const MoneybookHistoryService = {
   update: async (connection, { id, amount, category, date, payment_type, title }) => {
     if (!id) throw Error('내역을 선택해주세요');
 
+    const [categoryInfo] = await MoneybookCategoryService.get(connection, category);
+    const isIncomeHistory = categoryInfo.type === 'I';
+
     const sql = `
       UPDATE
         moneybook_history
       SET
-        ${amount ? `amount = ${amount},` : ''}
+        ${amount ? `amount = ${isIncomeHistory ? Math.abs(amount) : -1 * Math.abs(amount)},` : ''}
         ${category ? `category = ${category},` : ''}
         ${date ? `date = "${date}",` : ''}
         ${payment_type ? `payment_type = ${payment_type},` : ''}

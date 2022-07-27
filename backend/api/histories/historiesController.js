@@ -28,10 +28,17 @@ export const MoneybookHistoryController = {
     const connection = res.locals.connection;
 
     const id = req.params.id;
-    const { amount, title, category, date, payment_type } = req.body;
+    const { amount, title, category, date, paymentType } = req.body;
 
     try {
-      await MoneybookHistoryService.update(connection, { id, amount, category, date, payment_type, title });
+      await MoneybookHistoryService.update(connection, {
+        id,
+        amount,
+        category,
+        date,
+        payment_type: paymentType,
+        title,
+      });
 
       connection.commit();
       res.send({ history: { id } });

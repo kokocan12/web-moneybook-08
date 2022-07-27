@@ -11,16 +11,16 @@ export class MainPage extends Component {
   }
   render() {
     const inputBar = new InputBar({ setState: this.setState, state: this.state, store: this.store }).render();
-    const listCount = this.state.histories.reduce((pre, curr) => pre + curr.list.length, 0);
+
     const mainPage = document.createElement('div');
-    const checkBoxContents = CheckBoxContents(listCount, this.state.totalIncome, this.state.totalExpenditure);
+    const checkBoxContents = CheckBoxContents(this.store);
     mainPage.classList.add('page-wrapper');
 
     const listItems = this.state.histories.map(history =>
-      ListItem(history, this.state.categories, this.state.paymentTypes),
+      ListItem(history, this.state.categories, this.state.paymentTypes, this.store),
     );
 
-    mainPage.append(inputBar, checkBoxContents, ...listItems);
+    mainPage.append(inputBar, checkBoxContents, ...listItems.filter(item => item !== null));
     this.setTemplate(mainPage);
     return this.templateContent();
   }

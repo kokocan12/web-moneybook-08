@@ -15,6 +15,17 @@ const history = {
       body: JSON.stringify({ date, category, title, paymentType, amount }),
     });
   },
+  /**
+   *
+   * @param {{id:number;date:string;category:number;title:string;paymentType:number;amount:number;}} data
+   */
+  update: async ({ id, date, category, title, paymentType, amount }) => {
+    return fetch(`${BASE_URL}/moneybook/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ date, category, title, paymentType, amount }),
+    });
+  },
 };
 
 export default history;

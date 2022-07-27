@@ -84,6 +84,12 @@
       }
     }
 
+    &.disabled {
+      .select-indicator {
+        cursor: not-allowed;
+      }
+    }
+
     .select-box {
       width: max-content;
       background-color: $color-off-white;
