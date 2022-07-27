@@ -18,7 +18,7 @@ export const MoneybookHistoryController = {
       connection.commit();
       res.send({ history: { id: insertedHistoryId, amount, title, category, date, payment_type } });
     } catch (err) {
-      res.send({ message: err.toString() });
+      res.status(400).send({ message: err.toString() });
       connection.rollback();
     }
 
@@ -36,7 +36,7 @@ export const MoneybookHistoryController = {
       connection.commit();
       res.send({ history: { id } });
     } catch (err) {
-      res.send({ message: err.toString() });
+      res.status(400).send({ message: err.toString() });
       connection.rollback();
     }
     connection.release();
@@ -52,7 +52,7 @@ export const MoneybookHistoryController = {
       connection.commit();
       res.send({ history: { id } });
     } catch (err) {
-      res.send({ message: err.toString() });
+      res.status(400).send({ message: err.toString() });
       connection.rollback();
     }
     connection.release();
@@ -65,7 +65,7 @@ export const MoneybookHistoryController = {
       const histories = await MoneybookHistoryService.get(connection, date);
       res.status(200).send({ payload: histories });
     } catch (err) {
-      res.send({ message: err.toString() });
+      res.status(400).send({ message: err.toString() });
       connection.rollback();
     }
     connection.release();

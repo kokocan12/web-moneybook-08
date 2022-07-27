@@ -85,6 +85,7 @@
         color: $color-label;
         font-size: 18px;
         background-color: transparent;
+        cursor: pointer;
 
         &.confirm {
           color: $color-primary;

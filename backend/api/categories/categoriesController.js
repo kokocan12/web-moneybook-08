@@ -9,7 +9,7 @@ export const MoneybookCategoryController = {
 
       res.send({ payload: categories });
     } catch (err) {
-      res.send({ message: err.toString() });
+      res.status(400).send({ message: err.toString() });
       connection.rollback();
     }
     connection.release();

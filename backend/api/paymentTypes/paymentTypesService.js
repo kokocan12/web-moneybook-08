@@ -12,10 +12,10 @@ export const MoneybookPaymentTypeService = {
   },
   /**
    * @param {string} name
-   * @returns {number}
+   * @returns {Promise<number>}
    */
   create: async (connection, name) => {
-    if (!name) throw Error('지급수단 명을 입력해주세요.');
+    if (!name) throw '결제수단을 입력해주세요.';
 
     const sql = `
     INSERT INTO 
@@ -30,7 +30,7 @@ export const MoneybookPaymentTypeService = {
    * @param {number} id
    */
   delete: async (connection, id) => {
-    if (!id) throw Error('지급수단을 선택해주세요');
+    if (!id) throw Error('결제수단을 선택해주세요');
 
     const sql = `
       DELETE FROM

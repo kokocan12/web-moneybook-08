@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import logger from 'morgan';
 import cors from 'cors';
 import { dbConnectionMiddleware } from './middleware/dbConnection.js';
 import { moneybookHistoryRouter } from './api/histories/historiesRouter.js';
@@ -14,12 +13,11 @@ const handleListening = () => {
 const __dirname = path.resolve();
 
 app.use(cors());
-app.use(express.json());
-app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(dbConnectionMiddleware);
+
 app.use('/api/moneybook', moneybookHistoryRouter);
 app.use('/api/categories', moneybookCategoryRouter);
 app.use('/api/paymentTypes', moneybookPaymentTypeRouter);

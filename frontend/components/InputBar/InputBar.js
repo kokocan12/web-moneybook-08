@@ -5,6 +5,8 @@ import checkSubmit from '../../assets/icons/check-submit.svg';
 import downArrow from '../../assets/icons/down-arrow.svg';
 import deleteIcon from '../../assets/icons/delete-icon.svg';
 import minusIcon from '../../assets/icons/minus-icon.svg';
+import api from '../../api/index.js';
+import { router } from '../../app.js';
 
 export class InputBar extends Component {
   /*
@@ -29,6 +31,7 @@ export class InputBar extends Component {
     this.categories = state.categories;
     this.paymentTypes = state.paymentTypes;
     this.state = state.inputBar;
+    this.setParentState = setState;
     this.setState = newState => {
       setState({ inputBar: { ...this.state, ...newState } });
     };
@@ -106,7 +109,7 @@ export class InputBar extends Component {
                                                             <label class="label" for="payment-type-${paymentTypeItem.id}">
                                                                 <div class="radio-item--container">
                                                                     <span class="radio-item--container--text">${paymentTypeItem.name}</span>
-                                                                    <button type="button" class="radio-item--container--button">
+                                                                    <button type="button" class="radio-item--container--button" data-id="${paymentTypeItem.id}">
                                                                         <img alt="delete-icon" src="${deleteIcon}" />
                                                                     </button>
                                                                 </div>
@@ -187,6 +190,10 @@ export class InputBar extends Component {
       item.addEventListener('change', this.handlePaymentTypeChange);
     });
 
+    form.querySelectorAll('.radio-item--container--button').forEach(item => {
+      item.addEventListener('click', this.handlePaymentTypeDelete);
+    });
+
     form.querySelector('#payment-method-add-button').addEventListener('click', this.handlePaymentTypeAddClick);
 
     form.querySelector('#input-bar-price').addEventListener('input', this.handleAmountChange);
@@ -257,12 +264,71 @@ export class InputBar extends Component {
     paymentMethodCheckbox.checked = false;
   };
 
-  handlePaymentTypeAddClick = evt => {
+  handlePaymentTypeDelete = evt => {
+    const button = evt.currentTarget;
+
+    const id = +button.dataset.id;
+    const deleteTargetPaymentType = this.paymentTypes.find(item => item.id === id);
+
+    const cancelCallback = () => modal.clear();
+    const confirmCallback = async () => {
+      const res = await api.paymentType.delete(id);
+      if (!res.ok) {
+        const jsonData = await res.json();
+        modal.clear();
+
+        const handleAlertConfirm = () => modal.clear();
+        modal.alert(jsonData.message, handleAlertConfirm);
+
+        return;
+      }
+
+      const handleSuccessButtonClick = async () => {
+        modal.clear();
+        const jsonData = await res.json();
+        this.setParentState({ paymentTypes: this.paymentTypes.filter(item => item.id !== id) });
+        router();
+      };
+
+      modal.clear();
+      modal.alert('결제수단을 삭제했습니다.', handleSuccessButtonClick);
+    };
+
+    modal.confirm(`(결제수단)${deleteTargetPaymentType.name}을(를) 삭제하시겠습니까?`, confirmCallback, cancelCallback);
+  };
+
+  handlePaymentTypeAddClick = () => {
     const paymentMethodCheckbox = this.form.querySelector('#payment-mothod-checkbox');
     paymentMethodCheckbox.checked = false;
 
-    const confirmCallback = () => modal.clear();
     const cancelCallback = () => modal.clear();
+    const confirmCallback = async input => {
+      const value = input.value;
+      const res = await api.paymentType.post(value);
+      if (!res.ok) {
+        const jsonData = await res.json();
+        modal.clear();
+
+        const retry = () => {
+          modal.clear();
+          this.handlePaymentTypeAddClick();
+        };
+        modal.alert(jsonData.message, retry);
+        return;
+      }
+
+      const handleSuccessButtonClick = async () => {
+        modal.clear();
+        const jsonData = await res.json();
+        const { name, id } = jsonData.payload;
+
+        this.setParentState({ paymentTypes: [...this.paymentTypes, { name, id }] });
+        router();
+      };
+      modal.clear();
+      modal.alert('결제수단을 추가했습니다.', handleSuccessButtonClick);
+    };
+
     modal.input('추가하실 결제수단을 적어주세요.', confirmCallback, cancelCallback);
   };
 

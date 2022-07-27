@@ -159,7 +159,7 @@ class Modal {
     const modalbox = this.getModalBox();
     const title = this.getTitle(text);
     const input = this.getInput();
-    const button = this.getTwoButtons(confirmCallback, cancelCallback);
+    const button = this.getTwoButtons(confirmCallback.bind(null, input.querySelector('input')), cancelCallback);
 
     modalbox.append(title, input, button);
 
