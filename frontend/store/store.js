@@ -4,9 +4,7 @@ export class Store {
     this.subscribers = [];
   }
   setState = newState => {
-    this.state = { ...this.state, ...newState };
-
-    console.log(this.state);
+    Object.assign(this.state, newState);
     this.notify();
   };
   addSubscriber(key, callback) {

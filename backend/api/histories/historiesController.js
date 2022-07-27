@@ -4,7 +4,7 @@ export const MoneybookHistoryController = {
   create: async (req, res) => {
     const connection = res.locals.connection;
 
-    const { amount, title, category, date, payment_type } = req.body;
+    const { amount, title, category, date, paymentType } = req.body;
 
     try {
       const insertedHistoryId = await MoneybookHistoryService.create(connection, {
@@ -12,11 +12,11 @@ export const MoneybookHistoryController = {
         title,
         category,
         date,
-        payment_type,
+        paymentType,
       });
 
       connection.commit();
-      res.send({ history: { id: insertedHistoryId, amount, title, category, date, payment_type } });
+      res.send({ history: { id: insertedHistoryId, amount, title, category, date, paymentType } });
     } catch (err) {
       res.status(400).send({ message: err.toString() });
       connection.rollback();

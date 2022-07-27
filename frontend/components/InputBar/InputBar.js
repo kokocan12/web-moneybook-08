@@ -26,15 +26,16 @@ export class InputBar extends Component {
   }
   paymentTypes:Array<paymentType>
   */
-  constructor({ state, setState }) {
+  constructor({ state, setState, store }) {
     super();
     this.categories = state.categories;
     this.paymentTypes = state.paymentTypes;
     this.state = state.inputBar;
     this.setParentState = setState;
     this.setState = newState => {
-      setState({ inputBar: { ...this.state, ...newState } });
+      setState({ inputBar: Object.assign(this.state, newState) });
     };
+    this.store = store;
   }
   render() {
     const form = document.createElement('form');
@@ -176,6 +177,9 @@ export class InputBar extends Component {
 
   setEvents(form) {
     this.form = form;
+
+    form.addEventListener('submit', this.handleFormSubmit);
+
     form.addEventListener('pointerdown', this.handleFormPointerDown);
     form.querySelector('#input-bar-date').addEventListener('click', this.handleDateClick);
     form.querySelector('#date-picker').addEventListener('change', this.handleDateChange);
@@ -340,7 +344,33 @@ export class InputBar extends Component {
     this.setState({ amount: input.value.replace(/,/g, '') });
   };
 
-  handleFormSubmit = evt => {
+  handleFormSubmit = async evt => {
     evt.preventDefault();
+    const { currentDate: date, category, title, paymentType, amount } = this.state;
+    const res = await api.history.post({ date, category, title, paymentType, amount });
+    if (!res.ok) {
+      const resJson = await res.json();
+      const handleAlertConfirm = () => {
+        modal.clear();
+      };
+
+      modal.alert(resJson.message, handleAlertConfirm);
+      return;
+    }
+
+    const handleAlertConfirm = () => {
+      modal.clear();
+      this.setState({
+        currentDate: '',
+        category: null,
+        categoryName: '',
+        title: '',
+        paymentType: null,
+        paymentTypeName: '',
+        amount: null,
+      });
+      this.store.getHistory();
+    };
+    modal.alert('내역을 추가했습니다.', handleAlertConfirm);
   };
 }

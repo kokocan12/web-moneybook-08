@@ -44,12 +44,11 @@ export const ListItem = (history, categories, paymentTypes) => {
           <span class ='category-tag' style="background-color:${CATEGORY_COLOR_TYPE[currentCategory.name_en]}"> ${
           currentCategory ? currentCategory.name_ko : null
         }</span> 
-<span>${title}</span>
+          <span>${title}</span>
         </div>
           <span class ='listItem-paidType'>${currnetPaymentType ? currnetPaymentType.name : null}</span>
-          <span>${amount.toLocaleString('ko-KR')}원</span>
-          
-    </div>`;
+          <span>${Math.abs(amount).toLocaleString('ko-KR')}원</span>
+      </div>`;
       })
       .join('')}
   

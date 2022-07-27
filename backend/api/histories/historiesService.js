@@ -1,4 +1,3 @@
-
 import { MoneybookCategoryService } from '../categories/categoriesService.js';
 import { getFormattedDate } from '../../utils/date.js';
 
@@ -13,8 +12,6 @@ export const MoneybookHistoryService = {
     FROM 
         moneybook_history
     WHERE
-        moneybook_history.amount < 0 
-        AND
         date between '${BEGIN_DATE}' and '${END_DATE}'
     `;
     const [rows, fields] = await connection.query(sql);
@@ -27,16 +24,16 @@ export const MoneybookHistoryService = {
    *
    *  @return {Promise<any>}
    */
-  create: async (connection, { amount, category, date, payment_type, title }) => {
-    if (!date) throw Error('일자를 입력해주세요.');
-    else if (!category) throw Error('분류를 선택해주세요.');
-    else if (!title) throw Error('내용을 입력해주세요.');
-    else if (amount === undefined) throw Error('금액을 입력해주세요.');
+  create: async (connection, { amount, category, date, paymentType, title }) => {
+    if (!date) throw '일자를 입력해주세요.';
+    else if (!category) throw '분류를 선택해주세요.';
+    else if (!title) throw '내용을 입력해주세요.';
+    else if (amount === undefined) throw '금액을 입력해주세요.';
 
     const [categoryInfo] = await MoneybookCategoryService.get(connection, category);
     const isIncomeHistory = categoryInfo.type === 'I';
 
-    if (!isIncomeHistory && !payment_type) throw Error('결제수단을 선택해주세요.');
+    if (!isIncomeHistory && !paymentType) throw '결제수단을 선택해주세요.';
 
     let sql = '';
     // Case1 : Income
@@ -44,7 +41,7 @@ export const MoneybookHistoryService = {
       sql = `
         INSERT INTO
           moneybook_history(amount, title, category, date)
-        VALUES (${amount}, "${title}", ${category}, "${date}")
+        VALUES (${Math.abs(amount)}, "${title}", ${category}, "${date}")
       `;
     }
     // Case2 : Expenditure
@@ -52,7 +49,7 @@ export const MoneybookHistoryService = {
       sql = `
         INSERT INTO
           moneybook_history(amount, title, category, date, payment_type)
-        VALUES (${-1 * amount}, "${title}", ${category}, "${date}", ${payment_type})
+        VALUES (${-1 * Math.abs(amount)}, "${title}", ${category}, "${date}", ${paymentType})
       `;
     }
 

@@ -7,9 +7,10 @@ export class MainPage extends Component {
     super();
     this.state = store.state;
     this.setState = store.setState;
+    this.store = store;
   }
   render() {
-    const inputBar = new InputBar({ setState: this.setState, state: this.state }).render();
+    const inputBar = new InputBar({ setState: this.setState, state: this.state, store: this.store }).render();
     const listCount = this.state.histories.reduce((pre, curr) => pre + curr.list.length, 0);
     const mainPage = document.createElement('div');
     const checkBoxContents = CheckBoxContents(listCount, this.state.totalIncome, this.state.totalExpenditure);

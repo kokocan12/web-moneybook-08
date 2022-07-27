@@ -108,6 +108,10 @@
             width: 100%;
             background-color: inherit;
             box-sizing: border-box;
+
+            &:hover {
+              background-color: #eee;
+            }
           }
           border-bottom: 1px solid $color-line;
 

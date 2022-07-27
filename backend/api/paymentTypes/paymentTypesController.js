@@ -31,7 +31,6 @@ export const MoneybookPaymentTypeController = {
   create: async (req, res) => {
     const connection = res.locals.connection;
     const { name } = req.body;
-    console.log(req.body);
     try {
       const insertId = await MoneybookPaymentTypeService.create(connection, name);
 
