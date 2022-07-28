@@ -12,7 +12,7 @@ export const MoneybookHistoryService = {
     FROM 
         moneybook_history
     WHERE
-        date between '${BEGIN_DATE}' and '${END_DATE}'
+        date >= '${BEGIN_DATE}' and date < '${END_DATE}'
     `;
     const [rows, fields] = await connection.query(sql);
 
