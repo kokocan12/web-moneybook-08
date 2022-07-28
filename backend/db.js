@@ -6,7 +6,7 @@ const DB_USER = process.env.MYSQL_USER;
 const DB_NAME = process.env.MYSQL_DB;
 const DB_PASSWORD = process.env.MYSQL_PASSWORD;
 
-export const pool = await mysql.createPool({
+export const pool = mysql.createPool({
   host: DB_HOST,
   user: DB_USER,
   password: DB_PASSWORD,
