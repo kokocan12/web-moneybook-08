@@ -9,7 +9,7 @@ export class StatisticsStore extends Store {
     super();
     this.state = {
       date: getCurrentMonth(),
-      selectedCategory: '',
+      selectedCategory: 'shopping',
       categoriesMonth: [],
       lastSixMonthExpenditure: [],
     };
@@ -26,7 +26,24 @@ export class StatisticsStore extends Store {
   };
 
   updateState = args => {
-    this.setState({ ...this.state, date: args.date });
+    const histories = [];
+    const selectedCategory = this.state.selectedCategory;
+    if (selectedCategory) {
+      const categoriesMap = args.categories.reduce((acc, curr) => {
+        acc[curr.name_en] = curr.id;
+        return acc;
+      }, {});
+
+      for (let i = 0; i < args.histories.length; i++) {
+        const dateHistories = args.histories[i];
+        const list = dateHistories.list.filter(item => item.category === categoriesMap[selectedCategory]);
+        if (list.length) {
+          histories.push({ ...dateHistories, list });
+        }
+      }
+    }
+
+    this.setState({ ...this.state, date: args.date, histories });
     this.getStatistics();
   };
 }
