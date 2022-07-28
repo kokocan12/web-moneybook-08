@@ -13,6 +13,7 @@ export class StatisticsPage extends Component {
   render() {
     const statisticsPage = document.createElement('div');
     statisticsPage.classList.add('page-wrapper');
+
     const statisticContents = new StatisticContents(this.state);
     statisticsPage.append(statisticContents.render());
     this.setTemplate(statisticsPage);

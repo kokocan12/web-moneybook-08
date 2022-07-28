@@ -7,7 +7,9 @@ import { StatisticsStore } from './store/statisticsStore.js';
 import { ROUTES } from './utils/constant.js';
 
 const historyStore = new HistoryStore();
+
 const statisticsStore = new StatisticsStore();
+historyStore.addSubscriber('statisticsStore', statisticsStore.updateState);
 
 const PAGE_TYPE = [
   { path: ROUTES.MAIN, view: MainPage, store: historyStore },

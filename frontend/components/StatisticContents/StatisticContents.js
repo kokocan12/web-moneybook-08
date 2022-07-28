@@ -1,6 +1,6 @@
 import { Component } from '../Component.js';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart.js';
-import { CATEGORY_COLOR_TYPE, CATEGORY_TYPE_KOREAN } from '../../utils/constant.js';
+import { CATEGORY_COLOR_TYPE, CATEGORY_TYPE, CATEGORY_TYPE_KOREAN } from '../../utils/constant.js';
 import './statisticContents.scss';
 import { LineChart } from '../LineChart/LineChart.js';
 
@@ -10,7 +10,6 @@ export class StatisticContents extends Component {
     this.data = data;
   }
   render() {
-    const data = { category: 'shopping' };
     const statisticContentsContainer = document.createElement('div');
     statisticContentsContainer.setAttribute('id', 'statisticContents-component-container');
     const statisticContents = document.createElement('div');
@@ -19,19 +18,25 @@ export class StatisticContents extends Component {
     const doughnutChart = new DoughnutChart(this.data);
     statisticContents.append(doughnutChart.render(), this.drawList());
 
-    statisticContentsContainer.append(statisticContents, this.drawLineChartContents(data));
+    statisticContentsContainer.append(statisticContents, this.drawLineChartContents(this.data.lastSixMonthExpenditure));
     this.setTemplate(statisticContentsContainer);
     return this.templateContent();
   }
 
   drawList() {
-    const TOTAL = 4400000;
+    const TOTAL = this.data.categoriesMonth.reduce((acc, curr) => acc + curr.total, 0);
+    const expenditureList = this.data.categoriesMonth.filter(
+      item =>
+        item.category !== CATEGORY_TYPE.ALLOWANCE &&
+        item.category !== CATEGORY_TYPE.SALARY &&
+        item.category !== CATEGORY_TYPE.ETC,
+    );
     const listContainer = document.createElement('div');
     listContainer.setAttribute('id', 'statistic- list-container');
     const listInnerHTML = `
-        <span class ='totalExpenditure'>이번 달 지출 금액 ${TOTAL.toLocaleString('ko-KR')}</span>
+        <span class ='totalExpenditure'>이번 달 지출 금액 ${TOTAL.toLocaleString('ko-KR')} 원</span>
         <div>
-            ${this.data.categoriesMonth
+            ${expenditureList
               .map(
                 item =>
                   `<div class = 'list-history-wrapper'>
@@ -39,7 +44,7 @@ export class StatisticContents extends Component {
                   <span class ='category-tag' style="background-color:${CATEGORY_COLOR_TYPE[item.category]}">${
                     CATEGORY_TYPE_KOREAN[item.category]
                   }</span> 
-                    <span>${item.percent * 100}%</span>
+                    <span>${(item.percent * 100).toFixed(1)}%</span>
                 </div>
                  
                   <span>${item.total.toLocaleString('ko-KR')}원</span>

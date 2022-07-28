@@ -14,7 +14,7 @@ export class Store {
     this.subscribers = this.subscribers.filter(subscriber => subscriber.key !== key);
   };
 
-  notify() {
-    this.subscribers.forEach(subscriber => subscriber.value());
-  }
+  notify = () => {
+    this.subscribers.forEach(subscriber => subscriber.value(this.state));
+  };
 }

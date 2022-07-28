@@ -6,7 +6,8 @@ export class DoughnutChart extends Component {
   constructor(data) {
     super();
     this.data = data;
-    this.ratioList = data.categoriesMonth.map(item => item.percent);
+
+    this.ratioList = data.categoriesMonth ? data.categoriesMonth.map(item => item.percent) : [];
   }
 
   render() {
@@ -36,7 +37,7 @@ export class DoughnutChart extends Component {
         path.setAttribute('fill', 'none');
         path.setAttribute('stroke', CATEGORY_COLOR_TYPE[item.category]);
         path.setAttribute('stroke-width', '0.5');
-        path.setAttribute('stroke-dasharray', `2 ${emptySpace}`);
+        path.setAttribute('stroke-dasharray', `5 ${emptySpace}`);
         path.setAttribute('stroke-dashoffset', ' 0.025');
         return path.outerHTML;
       });

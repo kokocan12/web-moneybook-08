@@ -1,19 +1,32 @@
-import { CATEGORY_TYPE } from '../utils/constant.js';
+import api from '../api/index.js';
+import { router } from '../app.js';
+import { getCurrentMonth } from '../utils/date.js';
+import { HistoryStore } from './historyStore.js';
 import { Store } from './store.js';
 
 export class StatisticsStore extends Store {
   constructor() {
     super();
     this.state = {
-      categoriesMonth: [
-        { category: CATEGORY_TYPE.SHOPPING, percent: 0.31, total: 32300 },
-        { category: CATEGORY_TYPE.TRAFFIC, percent: 0.19, total: 32300 },
-        { category: CATEGORY_TYPE.CULTURE, percent: 0.2, total: 32300 },
-        { category: CATEGORY_TYPE.FOOD, percent: 0.1, total: 32300 },
-        { category: CATEGORY_TYPE.HEALTH, percent: 0.1, total: 32300 },
-        { category: CATEGORY_TYPE.LIFE, percent: 0.08, total: 32300 },
-        { category: CATEGORY_TYPE.ETC, percent: 0.02, total: 32300 },
-      ],
+      date: getCurrentMonth(),
+      selectedCategory: '',
+      categoriesMonth: [],
+      lastSixMonthExpenditure: [],
     };
+    this.getStatistics();
   }
+  getStatistics = async () => {
+    const date = this.state.date.replace('-', '');
+    const res = await api.category.getStatistics(date);
+    const data = await res.json();
+    const { categoriesMonth } = data.payload;
+    const { lastSixMonthExpenditure } = data.payload;
+    this.setState({ ...this.state, categoriesMonth, lastSixMonthExpenditure });
+    router();
+  };
+
+  updateState = args => {
+    this.setState({ ...this.state, date: args.date });
+    this.getStatistics();
+  };
 }
