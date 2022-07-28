@@ -1,4 +1,4 @@
-import './checkBoxContents.scss';
+import './checkboxContents.scss';
 import checkboxIcon from '../../assets/icons/checkbox-small-active.svg';
 import { router } from '../../app.js';
 
