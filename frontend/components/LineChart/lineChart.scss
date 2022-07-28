@@ -1,0 +1,53 @@
+@import '../../style/color.scss';
+
+#line-chart-wrapper {
+  svg:not(text) {
+    overflow: visible;
+    width: 805px;
+    height: 300px;
+    transform: rotate(180deg) scaleX(-1);
+  }
+  .graph-path {
+    stroke: $color-primary;
+    animation: lineAni 1.5s;
+  }
+  .background-path {
+    stroke: $color-background;
+    fill: none;
+  }
+  text {
+    transform: scaleX(-1) rotate(180deg);
+  }
+
+  circle {
+    fill: $color-primary;
+    animation: cirAni 1.5s;
+  }
+
+  .monthText {
+    width: 100%;
+    color: $color-label;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+// @keyframes lineAni {
+//   0% {
+//     stroke-dashoffset: 1000;
+//     stroke: $color-off-white;
+//   }
+//   100% {
+//     stroke-dashoffset: 0;
+//     stroke: $color-primary;
+//   }
+// }
+// @keyframes cirAni {
+//   0% {
+//     fill: $color-off-white;
+//   }
+//   100% {
+//     fill: $color-primary;
+//   }
+// }

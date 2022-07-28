@@ -2,6 +2,7 @@ import { Component } from '../Component.js';
 import { DoughnutChart } from '../DoughnutChart/DoughnutChart.js';
 import { CATEGORY_COLOR_TYPE, CATEGORY_TYPE_KOREAN } from '../../utils/constant.js';
 import './statisticContents.scss';
+import { LineChart } from '../LineChart/LineChart.js';
 
 export class StatisticContents extends Component {
   constructor(data) {
@@ -9,6 +10,7 @@ export class StatisticContents extends Component {
     this.data = data;
   }
   render() {
+    const data = { category: 'shopping' };
     const statisticContentsContainer = document.createElement('div');
     statisticContentsContainer.setAttribute('id', 'statisticContents-component-container');
     const statisticContents = document.createElement('div');
@@ -17,7 +19,7 @@ export class StatisticContents extends Component {
     const doughnutChart = new DoughnutChart(this.data);
     statisticContents.append(doughnutChart.render(), this.drawList());
 
-    statisticContentsContainer.append(statisticContents);
+    statisticContentsContainer.append(statisticContents, this.drawLineChartContents(data));
     this.setTemplate(statisticContentsContainer);
     return this.templateContent();
   }
@@ -51,5 +53,16 @@ export class StatisticContents extends Component {
     `;
     listContainer.insertAdjacentHTML('afterbegin', listInnerHTML);
     return listContainer;
+  }
+  drawLineChartContents(data) {
+    const contents = document.createElement('div');
+    contents.classList.add('line-contents-container');
+    const titleElement = document.createElement('span');
+    titleElement.innerText = `${CATEGORY_TYPE_KOREAN[data.category]} 카테고리 소비 추이 `;
+    const lineChart = new LineChart();
+
+    contents.append(titleElement, lineChart.render());
+
+    return contents;
   }
 }

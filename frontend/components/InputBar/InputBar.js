@@ -48,7 +48,7 @@ export class InputBar extends Component {
                                 일자
                             </label>
                             <input id="input-bar-date" class="input" type="text" readonly placeholder="입력하세요" autocomplete="off" value="${currentDate}" />
-                            <input id="date-picker" class="input" type="date" value="${currentDate}"  />
+                            <input id="date-picker" class="input" type="date" value="${this.store.state.date}-01" />
                         </div>`;
 
     const categoryInput = ` <div class="input-wrap ${id ? 'disabled' : ''}">
