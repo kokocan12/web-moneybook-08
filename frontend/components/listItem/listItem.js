@@ -1,6 +1,6 @@
 import { router } from '../../app.js';
 import { CATEGORY_COLOR_TYPE, CATEGORY_TYPE_KOREAN, DAY_KOREAN } from '../../utils/constant.js';
-import './listItem.scss';
+import './ListItem.scss';
 
 /**
  *

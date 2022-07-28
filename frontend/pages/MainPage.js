@@ -1,5 +1,5 @@
 import { Component } from '../components/Component.js';
-import { ListItem } from '../components/ListItem/ListItem.js';
+import { ListItem } from '../components/listItem/ListItem.js';
 import { InputBar } from '../components/InputBar/InputBar.js';
 import { CheckBoxContents } from '../components/CheckboxContents/CheckboxContents.js';
 export class MainPage extends Component {
