@@ -14,4 +14,13 @@ export const MoneybookCategoryController = {
     }
     connection.release();
   },
+  getStatistics: async (req, res) => {
+    const connection = res.locals.connection;
+
+    const date = req.params.date;
+
+    const categoriesMonth = await MoneybookCategoryService.getCategoriesMonth(connection, date);
+
+    res.send({ payload: { categoriesMonth } });
+  },
 };
