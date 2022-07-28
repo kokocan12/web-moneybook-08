@@ -52,14 +52,14 @@ export const ListItem = (history, categories, paymentTypes, store) => {
         return `
       <div class = 'list-history-wrapper' data-id="${id}" data-title="${title}" data-payment_type="${payment_type}" data-amount="${amount}" data-category="${category}" data-category_name="${
           currentCategory?.name_ko
-        }" data-payment_type_name="${currnetPaymentType?.name ?? ''}" data-date="${dateString}">
+        }" data-payment_type_name="${currentPaymentType?.name ?? ''}" data-date="${dateString}">
         <div class ='listItem-front'>
           <span class ='category-tag' style="background-color:${CATEGORY_COLOR_TYPE[currentCategory.name_en]}"> ${
           currentCategory ? currentCategory.name_ko : null
         }</span> 
           <span>${title}</span>
         </div>
-          <span class ='listItem-paidType'>${currnetPaymentType ? currnetPaymentType.name : ''}</span>
+          <span class ='listItem-paidType'>${currentPaymentType ? currentPaymentType.name : ''}</span>
           <span>${Math.abs(amount).toLocaleString('ko-KR')}원</span>
       </div>`;
       })

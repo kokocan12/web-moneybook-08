@@ -21,7 +21,7 @@
   .calendar-day {
     height: 120px;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     flex-direction: column;
     width: calc(100% / 7);
     padding: 8px 8px;

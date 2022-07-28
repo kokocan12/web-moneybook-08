@@ -7,31 +7,22 @@ export const CheckBoxContents = store => {
   checkBoxContents.setAttribute('id', 'checkbox-contents-wrapper');
 
   const { incomeChecked, expenditureChecked } = store.state.checkboxContents;
+  const { totalMonthIncome, totalMonthExpenditure } = store.state;
 
-  const [totalCount, totalIncome, totalExpenditure] = store.state.histories.reduce(
-    (acc, curr) => {
-      let count = 0;
-      let totalIncome = 0;
-      let totalExpenditure = 0;
-      curr.list.forEach(item => {
-        if (item.amount > 0 && incomeChecked) {
-          count += 1;
-          totalIncome += item.amount;
-        }
+  const totalCount = store.state.histories.reduce((acc, curr) => {
+    let count = 0;
+    curr.list.forEach(item => {
+      if (item.amount > 0 && incomeChecked) {
+        count += 1;
+      }
 
-        if (item.amount < 0 && expenditureChecked) {
-          count += 1;
-          totalExpenditure += item.amount;
-        }
-      });
+      if (item.amount < 0 && expenditureChecked) {
+        count += 1;
+      }
+    });
 
-      acc[0] += count;
-      acc[1] += totalIncome;
-      acc[2] += totalExpenditure;
-      return acc;
-    },
-    [0, 0, 0],
-  );
+    return acc + count;
+  }, 0);
 
   const checkBoxInnerHTML = `
       <span class = 'totalListCount'>전체 내역 ${totalCount}건</span>
@@ -39,12 +30,12 @@ export const CheckBoxContents = store => {
         <img data-type="income" class="checkbox ${
           incomeChecked ? 'active' : ''
         }" src='${checkboxIcon}' id = 'checkbox-income'/>
-        <span class="checkbox-text ${incomeChecked ? 'active' : ''}" >수입 ${totalIncome.toLocaleString()}원</span>
+        <span class="checkbox-text ${incomeChecked ? 'active' : ''}" >수입 ${totalMonthIncome.toLocaleString()}원</span>
         <img data-type="expenditure" class="checkbox ${
           expenditureChecked ? 'active' : ''
         }" src='${checkboxIcon}'id = 'checkbox-expenditure'/>
         <span class="checkbox-text ${expenditureChecked ? 'active' : ''}">지출 ${Math.abs(
-    totalExpenditure,
+    totalMonthExpenditure,
   ).toLocaleString()}원</span>
       </div>
     

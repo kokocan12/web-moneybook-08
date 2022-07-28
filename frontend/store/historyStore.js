@@ -11,8 +11,6 @@ export class HistoryStore extends Store {
       checkboxContents: {
         incomeChecked: true,
         expenditureChecked: true,
-        totalIncome: 0,
-        totalExpenditure: 0,
       },
       categories: [],
       paymentTypes: [],
@@ -27,8 +25,8 @@ export class HistoryStore extends Store {
         paymentTypeName: '',
         amount: null,
       },
-      totalIncome: 0,
-      totalExpenditure: 0,
+      totalMonthIncome: 0,
+      totalMonthExpenditure: 0,
       histories: [],
     };
 
