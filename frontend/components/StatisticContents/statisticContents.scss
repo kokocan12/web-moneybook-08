@@ -38,8 +38,9 @@
   }
 }
 .line-contents-container {
+  display: none;
   width: 100%;
-  display: flex;
+  //display: flex;
   flex-direction: column;
   gap: 32px;
   background: $color-off-white;
@@ -52,4 +53,7 @@
     font-weight: 400;
     font-size: 22px;
   }
+}
+.line-contents-container.open {
+  display: flex;
 }

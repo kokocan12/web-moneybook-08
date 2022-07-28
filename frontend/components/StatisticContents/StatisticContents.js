@@ -5,9 +5,10 @@ import './statisticContents.scss';
 import { LineChart } from '../LineChart/LineChart.js';
 
 export class StatisticContents extends Component {
-  constructor(data) {
+  constructor(data, setState) {
     super();
     this.data = data;
+    this.setState = setState;
   }
   render() {
     const statisticContentsContainer = document.createElement('div');
@@ -15,10 +16,10 @@ export class StatisticContents extends Component {
     const statisticContents = document.createElement('div');
     statisticContents.setAttribute('id', 'statisticContents-wrapper');
 
-    const doughnutChart = new DoughnutChart(this.data);
+    const doughnutChart = new DoughnutChart(this.data, this.setState);
     statisticContents.append(doughnutChart.render(), this.drawList());
 
-    statisticContentsContainer.append(statisticContents, this.drawLineChartContents(this.data.lastSixMonthExpenditure));
+    statisticContentsContainer.append(statisticContents, this.drawLineChartContents());
     this.setTemplate(statisticContentsContainer);
     return this.templateContent();
   }
@@ -59,12 +60,18 @@ export class StatisticContents extends Component {
     listContainer.insertAdjacentHTML('afterbegin', listInnerHTML);
     return listContainer;
   }
-  drawLineChartContents(data) {
+  drawLineChartContents() {
+    const sixMonthData = this.data.lastSixMonthExpenditure;
+    const selectedCategory = this.data.selectedCategory;
     const contents = document.createElement('div');
     contents.classList.add('line-contents-container');
+    if (selectedCategory) {
+      contents.classList.add('open');
+    } else contents.classList.remove('open');
+
     const titleElement = document.createElement('span');
-    titleElement.innerText = `${CATEGORY_TYPE_KOREAN[data.category]} 카테고리 소비 추이 `;
-    const lineChart = new LineChart();
+    titleElement.innerText = `${CATEGORY_TYPE_KOREAN[selectedCategory]} 카테고리 소비 추이 `;
+    const lineChart = new LineChart(sixMonthData, selectedCategory);
 
     contents.append(titleElement, lineChart.render());
 

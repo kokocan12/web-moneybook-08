@@ -1,11 +1,13 @@
 import { Component } from '../Component.js';
 import './lineChart.scss';
+import { getCurrentMonth } from '../../utils/date.js';
 
 export class LineChart extends Component {
-  constructor(data) {
+  constructor(data, category) {
     super();
     this.data = data;
-    this.fakeData = [400, 4300, 33000, 20000, 3000, 400, 4300, 33000, 20000, 3000];
+    this.categoryData = category ? this.data[category] : [];
+    this.totalList = category ? this.data[category].map(item => item.total) : [];
   }
   SVGWidthRatio = 2.66;
   SVGHeightRatio = 1;
@@ -13,15 +15,16 @@ export class LineChart extends Component {
   getCoordinates() {
     const MONTH = 24;
     const X_GAP = this.SVGWidthRatio / (MONTH - 1);
-    const MAX_AMOUNT = Math.max(...this.fakeData);
+    const MAX_AMOUNT = Math.max(...this.totalList);
 
-    return this.fakeData.reduce(
-      (acc, curr, index) => [
+    return this.totalList.reduce((acc, curr, index) => {
+      const currDate = new Date(`${this.categoryData[index].date}-01`);
+
+      return [
         ...acc,
-        { x: X_GAP * index * 2, y: (curr / MAX_AMOUNT) * this.SVGHeightRatio, amount: curr },
-      ],
-      [],
-    );
+        { x: X_GAP * currDate.getMonth() * 2, y: (curr / MAX_AMOUNT) * this.SVGHeightRatio, amount: curr },
+      ];
+    }, []);
   }
   render() {
     const chart = document.createElement('div');
@@ -91,9 +94,9 @@ export class LineChart extends Component {
     const textElements = coordiDate.reduce((acc, curr) => {
       return (
         `${acc}` +
-        `<text x =${curr.x} y =${curr.y * -1}  font-size ='0.05' font-weight='100' text-anchor='start'>${
-          curr.amount
-        }</text>`
+        `<text x =${curr.x} y =${curr.y * -1}  font-size ='0.05' font-weight='400' text-anchor='start'>${parseInt(
+          curr.amount,
+        ).toLocaleString('ko-KR')}</text>`
       );
     }, '');
     return textElements;
@@ -105,7 +108,9 @@ export class LineChart extends Component {
     for (var i = 0; i < 12; i++) {
       monthElements += `<text x =${
         gap * i + 0.02
-      } y =0.08  font-size ='0.08' font-weight='500' text-anchor='end' fill='#8D9393'>${i + 1}</text>`;
+      } y =0.08  font-size ='0.08' font-weight='500' text-anchor='end' fill='${i + 1 == 7 ? '#2ac1bc' : '#8D9393'}'>${
+        i + 1
+      }</text>`;
     }
 
     return monthElements;

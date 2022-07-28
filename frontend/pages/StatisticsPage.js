@@ -14,7 +14,7 @@ export class StatisticsPage extends Component {
     const statisticsPage = document.createElement('div');
     statisticsPage.classList.add('page-wrapper');
 
-    const statisticContents = new StatisticContents(this.state);
+    const statisticContents = new StatisticContents(this.state, this.setState);
     statisticsPage.append(statisticContents.render());
     this.setTemplate(statisticsPage);
     this.setEvents();

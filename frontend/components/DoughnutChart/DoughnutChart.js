@@ -3,10 +3,10 @@ import { Component } from '../Component.js';
 import './doughnutChart.scss';
 
 export class DoughnutChart extends Component {
-  constructor(data) {
+  constructor(data, setState) {
     super();
     this.data = data;
-
+    this.setState = setState;
     this.ratioList = data.categoriesMonth ? data.categoriesMonth.map(item => item.percent) : [];
   }
 
@@ -56,6 +56,6 @@ export class DoughnutChart extends Component {
   }
   handleClickPath = evt => {
     const targetCategory = evt.target.dataset.category;
-    console.log(targetCategory);
+    this.setState({ selectedCategory: targetCategory });
   };
 }
