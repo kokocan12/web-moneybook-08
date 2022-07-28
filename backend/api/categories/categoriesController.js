@@ -20,7 +20,8 @@ export const MoneybookCategoryController = {
     const date = req.params.date;
 
     const categoriesMonth = await MoneybookCategoryService.getCategoriesMonth(connection, date);
+    const lastSixMonthExpenditure = await MoneybookCategoryService.getLastSixMonthExpenditure(connection);
 
-    res.send({ payload: { categoriesMonth } });
+    res.send({ payload: { categoriesMonth, lastSixMonthExpenditure } });
   },
 };
