@@ -206,9 +206,11 @@ export class InputBar extends Component {
   handleFormPointerDown = evt => {
     const form = this.form;
     const selectBox = evt.target.closest('.select-box');
+    const indicator = evt.target.closest('.select-indicator');
     const isSelectBoxClicked = selectBox && selectBox.contains(evt.target);
+    const isIndicatorClicked = indicator && indicator.contains(evt.target);
 
-    if (!isSelectBoxClicked) {
+    if (!isSelectBoxClicked && !isIndicatorClicked) {
       const checkboxes = form.querySelectorAll('input[type=checkbox]');
       checkboxes.forEach(checkbox => (checkbox.checked = false));
     }
