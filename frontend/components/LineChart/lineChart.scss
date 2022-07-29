@@ -7,21 +7,13 @@
     height: 300px;
     transform: rotate(180deg) scaleX(-1);
   }
-  .graph-path {
-    stroke: $color-primary;
-    animation: lineAni 1.5s;
-  }
+
   .background-path {
     stroke: $color-background;
     fill: none;
   }
   text {
     transform: scaleX(-1) rotate(180deg);
-  }
-
-  circle {
-    fill: $color-primary;
-    animation: cirAni 1.5s;
   }
 
   .monthText {

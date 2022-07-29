@@ -1,10 +1,10 @@
 import { Component } from '../Component.js';
 import './lineChart.scss';
-import { getCurrentMonth } from '../../utils/date.js';
-
+import { CATEGORY_COLOR_TYPE } from '../../utils/constant.js';
 export class LineChart extends Component {
   constructor(data, category) {
     super();
+    this.category = category;
     this.data = data;
     this.categoryData = category ? this.data[category] : [];
     this.totalList = category ? this.data[category].map(item => item.total) : [];
@@ -64,26 +64,29 @@ export class LineChart extends Component {
     }, '');
 
     const circleElements = coordiDate.reduce((acc, curr) => {
-      return `${acc}` + `<circle cx =${curr.x} cy =${curr.y} r ='0.008 '></circle>`;
+      return (
+        `${acc}` +
+        `<circle cx =${curr.x} cy =${curr.y} r ='0.01 ' fill= ${CATEGORY_COLOR_TYPE[this.category]}></circle>`
+      );
     }, '');
     graphPath.setAttribute('d', `${dData}`);
     graphPath.classList.add('id', `graph-path`);
-
+    graphPath.setAttribute('stroke', `${CATEGORY_COLOR_TYPE[this.category]}`);
     graphPath.setAttribute('fill', 'none');
     graphPath.setAttribute('stroke-width', '0.008');
 
     return { graphPath, circleElements };
   }
   drawBackground() {
-    const border = `<path d = 'M0 0 H${this.SVGWidthRatio} V${this.SVGHeightRatio} H0 V0  Z' stroke-width= '0.002' class = 'background-path'></path>`;
+    const border = `<path d = 'M0 0 H${this.SVGWidthRatio} V${this.SVGHeightRatio} H0 V0  Z' stroke-width= '0.005' class = 'background-path'></path>`;
     const gap = this.SVGWidthRatio / 24;
     let columns = '';
     let rows = '';
     for (var col = 0; col < 24; col++) {
-      columns += `<path d = 'M${gap * col} 0 V1 Z' stroke-width= '0.002' class = 'background-path'></path>`;
+      columns += `<path d = 'M${gap * col} 0 V1 Z' stroke-width= '0.005' class = 'background-path'></path>`;
     }
     for (var row = 0; row < 10; row++) {
-      rows += `<path d = 'M0 ${gap * row}  H2.66 Z' stroke-width= '0.002' class = 'background-path'></path>`;
+      rows += `<path d = 'M0 ${gap * row}  H2.66 Z' stroke-width= '0.005' class = 'background-path'></path>`;
     }
 
     return { border, columns, rows };
@@ -108,7 +111,7 @@ export class LineChart extends Component {
     for (var i = 0; i < 12; i++) {
       monthElements += `<text x =${
         gap * i + 0.02
-      } y =0.08  font-size ='0.08' font-weight='500' text-anchor='end' fill='${i + 1 == 7 ? '#2ac1bc' : '#8D9393'}'>${
+      } y =0.08  font-size ='0.08' font-weight='500' text-anchor='end' fill=${i + 1 == 7 ? '#2ac1bc' : '#8D9393'}>${
         i + 1
       }</text>`;
     }

@@ -31,14 +31,24 @@ export class DoughnutChart extends Component {
         const isLargeArc = item.percent > 0.5 ? 1 : 0;
         const fillSpace = DIAMETER * item.percent;
         const emptySpace = DIAMETER * (1 - item.percent);
+        const animationDuration = 0.3;
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('data-category', `${item.category}`);
         path.setAttribute('d', `M ${startX} ${startY} A 1 1 0 ${isLargeArc} 1 ${endX} ${endY} M 0 0`);
         path.setAttribute('fill', 'none');
         path.setAttribute('stroke', CATEGORY_COLOR_TYPE[item.category]);
         path.setAttribute('stroke-width', '0.5');
-        path.setAttribute('stroke-dasharray', `5 ${emptySpace}`);
-        path.setAttribute('stroke-dashoffset', ' 0.025');
+        path.setAttribute('stroke-dasharray', `${fillSpace + 0.025} ${emptySpace}`);
+        path.setAttribute('stroke-dashoffset', `${fillSpace + 0.025}`);
+
+        const animation = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+        animation.setAttribute('attributeName', 'stroke-dashoffset');
+        animation.setAttribute('begin', `${animationDuration * index}`);
+        animation.setAttribute('from', `${fillSpace}`);
+        animation.setAttribute('to', '0.025');
+        animation.setAttribute('dur', `${animationDuration}`);
+        animation.setAttribute('fill', `freeze`);
+        path.appendChild(animation);
         return path.outerHTML;
       });
       return paths;
