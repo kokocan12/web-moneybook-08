@@ -1,7 +1,6 @@
 import api from '../api/index.js';
 import { router } from '../app.js';
 import { getCurrentMonth } from '../utils/date.js';
-import { HistoryStore } from './historyStore.js';
 import { Store } from './store.js';
 
 export class StatisticsStore extends Store {
