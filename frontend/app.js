@@ -6,8 +6,8 @@ import { HistoryStore } from './store/historyStore.js';
 import { StatisticsStore } from './store/statisticsStore.js';
 import { ROUTES } from './utils/constant.js';
 
+let debounceTimer = null;
 const historyStore = new HistoryStore();
-
 const statisticsStore = new StatisticsStore();
 historyStore.addSubscriber('statisticsStore', statisticsStore.updateState);
 
@@ -18,17 +18,20 @@ const PAGE_TYPE = [
 ];
 
 export const router = () => {
-  const potentialMatches = PAGE_TYPE.map(route => {
-    return {
-      route: route,
-      isMatch: location.pathname === route.path,
-    };
-  });
-  const match = potentialMatches.find(el => el.isMatch);
-  const view = new match.route.view({ store: match.route.store });
-  root.innerHTML = '';
-  root.append(Header({ store: historyStore }));
-  root.append(view.render());
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const potentialMatches = PAGE_TYPE.map(route => {
+      return {
+        route: route,
+        isMatch: location.pathname === route.path,
+      };
+    });
+    const match = potentialMatches.find(el => el.isMatch);
+    const view = new match.route.view({ store: match.route.store });
+    root.innerHTML = '';
+    root.append(Header({ store: historyStore }));
+    root.append(view.render());
+  }, 300);
 };
 
 export const App = () => {
