@@ -19,11 +19,14 @@ export class StatisticContents extends Component {
     const doughnutChart = new DoughnutChart(this.data, this.setState);
     statisticContents.append(doughnutChart.render(), this.drawList());
 
+    const histories = this.data.histories
+      ? this.data.histories.map(item => this.drawSelectedCategoryItemList(item))
+      : [];
 
     statisticContentsContainer.append(
       statisticContents,
       this.drawLineChartContents(this.data.lastSixMonthExpenditure),
-      ...this.data.histories?.map(item => this.drawSelectedCategoryItemList(item)),
+      ...histories,
     );
 
     this.setTemplate(statisticContentsContainer);

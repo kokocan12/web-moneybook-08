@@ -61,7 +61,7 @@ export class Calendar extends Component {
           }</span><span class ='expenditure'>${
             history.totalExpenditure < 0 ? history.totalExpenditure : ''
           }</span><span class ='sum'>${history.totalIncome + history.totalExpenditure}</span></div>`
-        : '';
+        : `<div class = 'day-history'></div>`;
     const getCalendarInnerHTML = (date, history) =>
       date
         ? `<div class ='calendar-day'>${history}<span class = 'day-marker'>${date}</span></div>`
