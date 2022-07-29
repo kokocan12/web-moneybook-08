@@ -9,7 +9,6 @@ import { ROUTES } from './utils/constant.js';
 let debounceTimer = null;
 const historyStore = new HistoryStore();
 const statisticsStore = new StatisticsStore();
-historyStore.addSubscriber('statisticsStore', statisticsStore.updateState);
 
 const PAGE_TYPE = [
   { path: ROUTES.MAIN, view: MainPage, store: historyStore },
@@ -28,6 +27,11 @@ export const router = () => {
     });
     const match = potentialMatches.find(el => el.isMatch);
     const view = new match.route.view({ store: match.route.store });
+
+    if (view instanceof StatisticsPage) {
+      historyStore.addSubscriber('statisticsStore', statisticsStore.updateState);
+    }
+
     root.innerHTML = '';
     root.append(Header({ store: historyStore }));
     root.append(view.render());
