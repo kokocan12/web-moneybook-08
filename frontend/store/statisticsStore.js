@@ -9,7 +9,7 @@ export class StatisticsStore extends Store {
     super();
     this.state = {
       date: getCurrentMonth(),
-      selectedCategory: 'shopping',
+      selectedCategory: '',
       categoriesMonth: [],
       lastSixMonthExpenditure: [],
     };
