@@ -25,6 +25,8 @@ export class DoughnutChart extends Component {
       return [x, y];
     };
     const getPath = () => {
+      const selectedCategory = this.data.selectedCategory;
+
       const paths = this.data.categoriesMonth.map((item, index) => {
         const [startX, startY] = getCoordinates(acc[index]);
         const [endX, endY] = getCoordinates(acc[index + 1]);
@@ -39,7 +41,7 @@ export class DoughnutChart extends Component {
         path.setAttribute('stroke', CATEGORY_COLOR_TYPE[item.category]);
         path.setAttribute('stroke-width', '0.5');
         path.setAttribute('stroke-dasharray', `${fillSpace + 0.025} ${emptySpace}`);
-        path.setAttribute('stroke-dashoffset', `${fillSpace + 0.025}`);
+        path.setAttribute('stroke-dashoffset', `${selectedCategory ? 0.025 : fillSpace + 0.025}`);
 
         const animation = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
         animation.setAttribute('attributeName', 'stroke-dashoffset');
@@ -48,7 +50,11 @@ export class DoughnutChart extends Component {
         animation.setAttribute('to', '0.025');
         animation.setAttribute('dur', `${animationDuration}`);
         animation.setAttribute('fill', `freeze`);
-        path.appendChild(animation);
+
+        if (!selectedCategory) {
+          path.appendChild(animation);
+        }
+
         return path.outerHTML;
       });
       return paths;
